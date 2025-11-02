@@ -1,0 +1,156 @@
+services:
+  kafka:
+    image: apache/kafka-native:latest
+    container_name: kafka
+    ports:
+      - 9092:9092
+      - 9094:9094 # helpful for development, access kafka from host machine
+    environment:
+      KAFKA_NODE_ID: 0
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 0@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_NUM_PARTITIONS: 3
+
+    networks:
+      - internal
+    healthcheck:
+      test: [ "CMD", "bash", "-c", "echo > /dev/tcp/localhost/9092" ]
+      interval: 3s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  api-gateway:
+    image: api-gateway:latest
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    ports:
+      - 4004:4004
+    networks:
+      - internal
+    environment:
+      AUTH_SERVICE_URL: http://auth-service:4005
+    depends_on:
+      - auth-service
+      - patient-service
+      - billing-service
+      - analytics-service
+
+  billing-service:
+    image: billing-service:latest
+    build:
+      context: ./billing-service
+      dockerfile: Dockerfile
+    container_name: billing-service
+#    ports:
+#      - 4001:4001
+#      - 9001:9001
+    networks:
+      - internal
+
+  analytics-service:
+    image: analytics-service:latest
+    build:
+      context: ./analytics-service
+      dockerfile: Dockerfile
+    container_name: analytics-service
+#    ports:
+#      - 4002:4002
+    networks:
+      - internal
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      kafka:
+        condition: service_healthy
+
+  patient-service:
+    image: patient-service:latest
+    build:
+      context: ./patient-service
+      dockerfile: Dockerfile
+    container_name: patient-service
+#    ports:
+#      - 4000:4000
+    networks:
+      - internal
+    environment:
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_URL: jdbc:postgresql://patient-service-db:5432/db
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_SQL_INIT_MODE: always
+      BILLING_SERVICE_ADDRESS: billing-service
+      BILLING_SERVICE_GRPC_PORT: 9001
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      - kafka
+      - patient-service-db
+      - billing-service
+
+  patient-service-db:
+    image: postgres:latest
+    container_name: patient-service-db
+    ports:
+      - 5000:5432
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+    volumes:
+      - patient_db_data:/var/lib/postgresql
+    networks:
+      - internal
+
+  auth-service:
+    image: auth-service:latest
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+#    ports:
+#      - 4005:4005
+    networks:
+      - internal
+    environment:
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_URL: jdbc:postgresql://auth-service-db:5432/db
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_SQL_INIT_MODE: always
+      JWT_SECRET: bf17dfc038c823d921976218093b982b8922e802df4dd2c6260c00927c9375bb
+    depends_on:
+      - auth-service-db
+
+  auth-service-db:
+    image: postgres:latest
+    container_name: auth-service-db
+    ports:
+      - 5001:5432
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+    volumes:
+      - auth_db_data:/var/lib/postgresql
+    networks:
+      - internal
+
+volumes:
+  patient_db_data:
+  auth_db_data:
+
+
+networks:
+  internal:
