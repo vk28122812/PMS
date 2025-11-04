@@ -1,5 +1,6 @@
 package com.pm.patientservice.service;
 
+import com.pm.patientservice.dto.PagedPatientResponseDTO;
 import com.pm.patientservice.dto.PatientRequestDTO;
 import com.pm.patientservice.dto.PatientResponseDTO;
 import com.pm.patientservice.exception.EmailAlreadyExistsException;
@@ -9,7 +10,12 @@ import com.pm.patientservice.mapper.PatientMapper;
 import com.pm.patientservice.model.Patient;
 import com.pm.patientservice.repository.PatientRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,11 +34,28 @@ public class PatientService {
         this.kafkaProducer = kafkaProducer;
     }
 
-    public List<PatientResponseDTO> getAllPatients() {
-        List<Patient> patients = patientRepository.findAll();
+    public PagedPatientResponseDTO getAllPatients(int page, int size, String sort, String sortField, String searchValue) {
 
-        return patients.stream()
-                .map(PatientMapper::toDto).toList();
+        Pageable pageable = PageRequest.of(page, size,
+                sort.equalsIgnoreCase("desc") ? Sort.by(sortField).descending() : Sort.by(sortField).ascending());
+
+        Page<Patient> patientPage ;
+
+        if(searchValue == null || searchValue.isBlank()){
+            patientPage = patientRepository.findAll(pageable);
+        }else{
+            patientPage = patientRepository.findByNameContainingIgnoreCase(searchValue, pageable);
+        }
+        List<PatientResponseDTO> patientResponseDTOs = patientPage.getContent()
+                .stream().map(PatientMapper::toDto).toList();
+
+        return new PagedPatientResponseDTO(
+                patientResponseDTOs,
+                patientPage.getNumber() + 1, // Spring uses 0-based page numbers
+                patientPage.getSize(),
+                patientPage.getTotalPages(),
+                (int) patientPage.getTotalElements()
+        );
     }
 
     public PatientResponseDTO createPatient(PatientRequestDTO patientDto) {

@@ -1,6 +1,4 @@
-
-### Get request to fetch all patients
 #GET http://localhost:4000/patients
-
-GET http://localhost:4004/api/patients
+GET http://localhost:4004/api/patients?sort=desc&size=2&page=1&searchValue=John
+Accept: application/json
 Authorization: Bearer {{token}}
