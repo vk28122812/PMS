@@ -94,6 +94,9 @@ services:
       BILLING_SERVICE_ADDRESS: billing-service
       BILLING_SERVICE_GRPC_PORT: 9001
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_CACHE_TYPE: REDIS
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
     depends_on:
       - kafka
       - patient-service-db
@@ -147,10 +150,18 @@ services:
     networks:
       - internal
 
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - 6379:6379
+    networks:
+      - internal
+
+
 volumes:
   patient_db_data:
   auth_db_data:
-
 
 networks:
   internal:
