@@ -4,10 +4,21 @@ server:
 
 
 spring:
+  data:
+    redis:
+      host: ${REDIS_HOST:redis}
+      port: ${REDIS_PORT:6379}
+
   cloud:
     gateway:
       server:
         webflux:
+          default-filters:
+            - name : RequestRateLimiter
+              args:
+                redis-rate-limiter.burstCapacity: 4 # Burst Capacity => Maximum Requests(in seconds) Allowed in a given time window per key(eg. IP )
+                redis-rate-limiter.replenishRate: 4 # Replenish Rate => How many requests to be added back per second to the burst capacity
+                key-resolver: '#{@ipKeyResolver}'
           routes:
             ## REST CLIENT -> http://localhost:4004/auth/login
             ## API GATEWAY -> http://auth-service:4005/login
