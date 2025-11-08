@@ -84,8 +84,10 @@ services:
       context: ./patient-service
       dockerfile: Dockerfile
     container_name: patient-service
-#    ports:
-#      - 4000:4000
+    ports:
+      - 4000:4000 # opening port for prometheus testing, not for real api consumption
+      # http://localhost:4000/actuator/prometheus
+      # http://localhost:4000/actuator/metrics
     networks:
       - internal
     environment:
@@ -160,6 +162,28 @@ services:
       - 6379:6379
     networks:
       - internal
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - internal
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - 3000:3000
+    networks:
+      - internal
+
+
+    # email, password: admin for development
+
 
 
 volumes:
