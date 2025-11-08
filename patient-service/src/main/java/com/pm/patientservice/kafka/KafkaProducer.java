@@ -18,7 +18,7 @@ public class KafkaProducer {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendEvent(Patient patient){
+    public void sendEvent(Patient patient) {
         PatientEvent patientEvent = PatientEvent.newBuilder()
                 .setPatientId(patient.getId().toString())
                 .setName(patient.getName())
@@ -26,12 +26,28 @@ public class KafkaProducer {
                 .setEventType("PATIENT_CREATED")
                 .build();
 
-        try{
+        try {
 
             kafkaTemplate.send("patient", patientEvent.toByteArray());
 
-        }catch(Exception e){
+        } catch (Exception e) {
             log.warn("Error sending PatientCreated event {} to Kafka. Error:  {}", patientEvent, e.getMessage());
+        }
+    }
+
+    public void sendBillingAccountEvent(String patientId, String name, String email) {
+        billing.events.BillingAccountEvent billingAccountEvent = billing.events.BillingAccountEvent.newBuilder()
+                .setPatientId(patientId)
+                .setName(name)
+                .setEmail(email)
+                .setEventType("BILLING_ACCOUNT_CREATE_REQUESTED")
+                .build();
+
+
+        try{
+            kafkaTemplate.send("billing-account", billingAccountEvent.toByteArray());
+        }catch(Exception e){
+            log.warn("Error sending BillingAccountEvent {} to Kafka. Error:  {}", billingAccountEvent, e.getMessage());
         }
     }
 
