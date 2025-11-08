@@ -173,6 +173,18 @@ services:
     networks:
       - internal
 
+  # only for building
+  prometheus-prod:
+    image: prometheus-prod:latest
+    container_name: prometheus-prod
+    build:
+      context: ./monitoring
+      dockerfile: Dockerfile
+    ports:
+      - 9090:9090
+    networks:
+      - internal
+
   grafana:
     image: grafana/grafana:latest
     container_name: grafana

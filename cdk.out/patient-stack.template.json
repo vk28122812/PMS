@@ -39,7 +39,7 @@
      },
      {
       "Key": "Name",
-      "Value": "localstack/PatientManagementVPC/PublicSubnet1"
+      "Value": "patient-stack/PatientManagementVPC/PublicSubnet1"
      }
     ],
     "VpcId": {
@@ -53,7 +53,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "localstack/PatientManagementVPC/PublicSubnet1"
+      "Value": "patient-stack/PatientManagementVPC/PublicSubnet1"
      }
     ],
     "VpcId": {
@@ -94,7 +94,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "localstack/PatientManagementVPC/PublicSubnet1"
+      "Value": "patient-stack/PatientManagementVPC/PublicSubnet1"
      }
     ]
    }
@@ -114,7 +114,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "localstack/PatientManagementVPC/PublicSubnet1"
+      "Value": "patient-stack/PatientManagementVPC/PublicSubnet1"
      }
     ]
    },
@@ -147,7 +147,7 @@
      },
      {
       "Key": "Name",
-      "Value": "localstack/PatientManagementVPC/PublicSubnet2"
+      "Value": "patient-stack/PatientManagementVPC/PublicSubnet2"
      }
     ],
     "VpcId": {
@@ -161,7 +161,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "localstack/PatientManagementVPC/PublicSubnet2"
+      "Value": "patient-stack/PatientManagementVPC/PublicSubnet2"
      }
     ],
     "VpcId": {
@@ -202,7 +202,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "localstack/PatientManagementVPC/PublicSubnet2"
+      "Value": "patient-stack/PatientManagementVPC/PublicSubnet2"
      }
     ]
    }
@@ -222,7 +222,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "localstack/PatientManagementVPC/PublicSubnet2"
+      "Value": "patient-stack/PatientManagementVPC/PublicSubnet2"
      }
     ]
    },
@@ -255,7 +255,7 @@
      },
      {
       "Key": "Name",
-      "Value": "localstack/PatientManagementVPC/PrivateSubnet1"
+      "Value": "patient-stack/PatientManagementVPC/PrivateSubnet1"
      }
     ],
     "VpcId": {
@@ -269,7 +269,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "localstack/PatientManagementVPC/PrivateSubnet1"
+      "Value": "patient-stack/PatientManagementVPC/PrivateSubnet1"
      }
     ],
     "VpcId": {
@@ -324,7 +324,7 @@
      },
      {
       "Key": "Name",
-      "Value": "localstack/PatientManagementVPC/PrivateSubnet2"
+      "Value": "patient-stack/PatientManagementVPC/PrivateSubnet2"
      }
     ],
     "VpcId": {
@@ -338,7 +338,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "localstack/PatientManagementVPC/PrivateSubnet2"
+      "Value": "patient-stack/PatientManagementVPC/PrivateSubnet2"
      }
     ],
     "VpcId": {
@@ -421,7 +421,7 @@
     }
    }
   },
-  "localstackAuthServiceDBSecretE93C53FD3fdaad7efa858a3daf9490cf0a702aeb": {
+  "patientstackAuthServiceDBSecret9665BADE3fdaad7efa858a3daf9490cf0a702aeb": {
    "Type": "AWS::SecretsManager::Secret",
    "Properties": {
     "Description": {
@@ -449,7 +449,7 @@
    "Type": "AWS::SecretsManager::SecretTargetAttachment",
    "Properties": {
     "SecretId": {
-     "Ref": "localstackAuthServiceDBSecretE93C53FD3fdaad7efa858a3daf9490cf0a702aeb"
+     "Ref": "patientstackAuthServiceDBSecret9665BADE3fdaad7efa858a3daf9490cf0a702aeb"
     },
     "TargetId": {
      "Ref": "AuthServiceDBC6B688BA"
@@ -475,7 +475,7 @@
       [
        "{{resolve:secretsmanager:",
        {
-        "Ref": "localstackAuthServiceDBSecretE93C53FD3fdaad7efa858a3daf9490cf0a702aeb"
+        "Ref": "patientstackAuthServiceDBSecret9665BADE3fdaad7efa858a3daf9490cf0a702aeb"
        },
        ":SecretString:password::}}"
       ]
@@ -525,7 +525,7 @@
     }
    }
   },
-  "localstackPatientServiceDBSecret20E0A9443fdaad7efa858a3daf9490cf0a702aeb": {
+  "patientstackPatientServiceDBSecret2ECC87323fdaad7efa858a3daf9490cf0a702aeb": {
    "Type": "AWS::SecretsManager::Secret",
    "Properties": {
     "Description": {
@@ -553,7 +553,7 @@
    "Type": "AWS::SecretsManager::SecretTargetAttachment",
    "Properties": {
     "SecretId": {
-     "Ref": "localstackPatientServiceDBSecret20E0A9443fdaad7efa858a3daf9490cf0a702aeb"
+     "Ref": "patientstackPatientServiceDBSecret2ECC87323fdaad7efa858a3daf9490cf0a702aeb"
     },
     "TargetId": {
      "Ref": "PatientServiceDBB84F9BF9"
@@ -579,7 +579,7 @@
       [
        "{{resolve:secretsmanager:",
        {
-        "Ref": "localstackPatientServiceDBSecret20E0A9443fdaad7efa858a3daf9490cf0a702aeb"
+        "Ref": "patientstackPatientServiceDBSecret2ECC87323fdaad7efa858a3daf9490cf0a702aeb"
        },
        ":SecretString:password::}}"
       ]
@@ -675,6 +675,36 @@
     }
    }
   },
+  "RedisSubnetGroup": {
+   "Type": "AWS::ElastiCache::SubnetGroup",
+   "Properties": {
+    "Description": "Redis/elasticache subnet group",
+    "SubnetIds": [
+     {
+      "Ref": "PatientManagementVPCPrivateSubnet1Subnet05B10E79"
+     },
+     {
+      "Ref": "PatientManagementVPCPrivateSubnet2Subnet8A2E409C"
+     }
+    ]
+   }
+  },
+  "RedisCluster": {
+   "Type": "AWS::ElastiCache::CacheCluster",
+   "Properties": {
+    "CacheNodeType": "cache.t2.micro",
+    "Engine": "redis",
+    "NumCacheNodes": 1,
+    "VpcSecurityGroupIds": [
+     {
+      "Fn::GetAtt": [
+       "PatientManagementVPC522067E7",
+       "DefaultSecurityGroup"
+      ]
+     }
+    ]
+   }
+  },
   "billingserviceTaskTaskRoleBB19ED52": {
    "Type": "AWS::IAM::Role",
    "Properties": {
@@ -701,6 +731,28 @@
        {
         "Name": "SPRING_KAFKA_BOOTSTRAP_SERVERS",
         "Value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4511,localhost.localstack.cloud:4512"
+       },
+       {
+        "Name": "SPRING_DATA_REDIS_HOST",
+        "Value": {
+         "Fn::GetAtt": [
+          "RedisCluster",
+          "RedisEndpoint.Address"
+         ]
+        }
+       },
+       {
+        "Name": "SPRING_DATA_REDIS_PORT",
+        "Value": {
+         "Fn::GetAtt": [
+          "RedisCluster",
+          "RedisEndpoint.Port"
+         ]
+        }
+       },
+       {
+        "Name": "SPRING_CACHE_TYPE",
+        "Value": "redis"
        }
       ],
       "Essential": true,
@@ -739,7 +791,7 @@
       "Arn"
      ]
     },
-    "Family": "localstackbillingserviceTask7C84E52A",
+    "Family": "patientstackbillingserviceTaskD6B02D08",
     "Memory": "512",
     "NetworkMode": "awsvpc",
     "RequiresCompatibilities": [
@@ -900,7 +952,7 @@
   "billingserviceSecurityGroup589DE52E": {
    "Type": "AWS::EC2::SecurityGroup",
    "Properties": {
-    "GroupDescription": "localstack/billing-service/SecurityGroup",
+    "GroupDescription": "patient-stack/billing-service/SecurityGroup",
     "SecurityGroupEgress": [
      {
       "CidrIp": "0.0.0.0/0",
@@ -942,6 +994,28 @@
        {
         "Name": "SPRING_KAFKA_BOOTSTRAP_SERVERS",
         "Value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4511,localhost.localstack.cloud:4512"
+       },
+       {
+        "Name": "SPRING_DATA_REDIS_HOST",
+        "Value": {
+         "Fn::GetAtt": [
+          "RedisCluster",
+          "RedisEndpoint.Address"
+         ]
+        }
+       },
+       {
+        "Name": "SPRING_DATA_REDIS_PORT",
+        "Value": {
+         "Fn::GetAtt": [
+          "RedisCluster",
+          "RedisEndpoint.Port"
+         ]
+        }
+       },
+       {
+        "Name": "SPRING_CACHE_TYPE",
+        "Value": "redis"
        }
       ],
       "Essential": true,
@@ -975,7 +1049,7 @@
       "Arn"
      ]
     },
-    "Family": "localstackanalyticsserviceTaskEC1AC79B",
+    "Family": "patientstackanalyticsserviceTaskC3ECF096",
     "Memory": "512",
     "NetworkMode": "awsvpc",
     "RequiresCompatibilities": [
@@ -1138,7 +1212,7 @@
   "analyticsserviceSecurityGroup690B9122": {
    "Type": "AWS::EC2::SecurityGroup",
    "Properties": {
-    "GroupDescription": "localstack/analytics-service/SecurityGroup",
+    "GroupDescription": "patient-stack/analytics-service/SecurityGroup",
     "SecurityGroupEgress": [
      {
       "CidrIp": "0.0.0.0/0",
@@ -1241,6 +1315,28 @@
        {
         "Name": "SPRING_KAFKA_BOOTSTRAP_SERVERS",
         "Value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4511,localhost.localstack.cloud:4512"
+       },
+       {
+        "Name": "SPRING_DATA_REDIS_HOST",
+        "Value": {
+         "Fn::GetAtt": [
+          "RedisCluster",
+          "RedisEndpoint.Address"
+         ]
+        }
+       },
+       {
+        "Name": "SPRING_DATA_REDIS_PORT",
+        "Value": {
+         "Fn::GetAtt": [
+          "RedisCluster",
+          "RedisEndpoint.Port"
+         ]
+        }
+       },
+       {
+        "Name": "SPRING_CACHE_TYPE",
+        "Value": "redis"
        }
       ],
       "Essential": true,
@@ -1274,7 +1370,7 @@
       "Arn"
      ]
     },
-    "Family": "localstackauthserviceTaskF77A582D",
+    "Family": "patientstackauthserviceTask7EFDBFB7",
     "Memory": "512",
     "NetworkMode": "awsvpc",
     "RequiresCompatibilities": [
@@ -1399,7 +1495,7 @@
     "authserviceTaskTaskRoleD1F6B291",
     "AuthServiceDBC6B688BA",
     "AuthServiceDBSecretAttachmentF30406A9",
-    "localstackAuthServiceDBSecretE93C53FD3fdaad7efa858a3daf9490cf0a702aeb",
+    "patientstackAuthServiceDBSecret9665BADE3fdaad7efa858a3daf9490cf0a702aeb",
     "AuthServiceDBSecurityGroupBE6D28EB",
     "AuthServiceDBSubnetGroupCFE5A552",
     "AuthServiceDBHealthCheck"
@@ -1438,7 +1534,7 @@
     "authserviceTaskTaskRoleD1F6B291",
     "AuthServiceDBC6B688BA",
     "AuthServiceDBSecretAttachmentF30406A9",
-    "localstackAuthServiceDBSecretE93C53FD3fdaad7efa858a3daf9490cf0a702aeb",
+    "patientstackAuthServiceDBSecret9665BADE3fdaad7efa858a3daf9490cf0a702aeb",
     "AuthServiceDBSecurityGroupBE6D28EB",
     "AuthServiceDBSubnetGroupCFE5A552",
     "AuthServiceDBHealthCheck"
@@ -1447,7 +1543,7 @@
   "authserviceSecurityGroup8B80D594": {
    "Type": "AWS::EC2::SecurityGroup",
    "Properties": {
-    "GroupDescription": "localstack/auth-service/SecurityGroup",
+    "GroupDescription": "patient-stack/auth-service/SecurityGroup",
     "SecurityGroupEgress": [
      {
       "CidrIp": "0.0.0.0/0",
@@ -1463,7 +1559,7 @@
     "authserviceTaskTaskRoleD1F6B291",
     "AuthServiceDBC6B688BA",
     "AuthServiceDBSecretAttachmentF30406A9",
-    "localstackAuthServiceDBSecretE93C53FD3fdaad7efa858a3daf9490cf0a702aeb",
+    "patientstackAuthServiceDBSecret9665BADE3fdaad7efa858a3daf9490cf0a702aeb",
     "AuthServiceDBSecurityGroupBE6D28EB",
     "AuthServiceDBSubnetGroupCFE5A552",
     "AuthServiceDBHealthCheck"
@@ -1557,8 +1653,30 @@
         "Value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4511,localhost.localstack.cloud:4512"
        },
        {
+        "Name": "SPRING_DATA_REDIS_HOST",
+        "Value": {
+         "Fn::GetAtt": [
+          "RedisCluster",
+          "RedisEndpoint.Address"
+         ]
+        }
+       },
+       {
         "Name": "BILLING_SERVICE_ADDRESS",
         "Value": "billing-service.patient-management.local"
+       },
+       {
+        "Name": "SPRING_DATA_REDIS_PORT",
+        "Value": {
+         "Fn::GetAtt": [
+          "RedisCluster",
+          "RedisEndpoint.Port"
+         ]
+        }
+       },
+       {
+        "Name": "SPRING_CACHE_TYPE",
+        "Value": "redis"
        }
       ],
       "Essential": true,
@@ -1592,7 +1710,7 @@
       "Arn"
      ]
     },
-    "Family": "localstackpatientserviceTaskDE2DEF61",
+    "Family": "patientstackpatientserviceTask4D3BFC21",
     "Memory": "512",
     "NetworkMode": "awsvpc",
     "RequiresCompatibilities": [
@@ -1721,10 +1839,11 @@
     "patientserviceTaskTaskRole37B81424",
     "PatientServiceDBB84F9BF9",
     "PatientServiceDBSecretAttachment90D77B03",
-    "localstackPatientServiceDBSecret20E0A9443fdaad7efa858a3daf9490cf0a702aeb",
+    "patientstackPatientServiceDBSecret2ECC87323fdaad7efa858a3daf9490cf0a702aeb",
     "PatientServiceDBSecurityGroup6B97C0E5",
     "PatientServiceDBSubnetGroupCED49D16",
-    "PatientServiceDBHealthCheck"
+    "PatientServiceDBHealthCheck",
+    "RedisCluster"
    ]
   },
   "patientserviceCloudmapService176D181B": {
@@ -1764,16 +1883,17 @@
     "patientserviceTaskTaskRole37B81424",
     "PatientServiceDBB84F9BF9",
     "PatientServiceDBSecretAttachment90D77B03",
-    "localstackPatientServiceDBSecret20E0A9443fdaad7efa858a3daf9490cf0a702aeb",
+    "patientstackPatientServiceDBSecret2ECC87323fdaad7efa858a3daf9490cf0a702aeb",
     "PatientServiceDBSecurityGroup6B97C0E5",
     "PatientServiceDBSubnetGroupCED49D16",
-    "PatientServiceDBHealthCheck"
+    "PatientServiceDBHealthCheck",
+    "RedisCluster"
    ]
   },
   "patientserviceSecurityGroup4670B1A9": {
    "Type": "AWS::EC2::SecurityGroup",
    "Properties": {
-    "GroupDescription": "localstack/patient-service/SecurityGroup",
+    "GroupDescription": "patient-stack/patient-service/SecurityGroup",
     "SecurityGroupEgress": [
      {
       "CidrIp": "0.0.0.0/0",
@@ -1793,10 +1913,11 @@
     "patientserviceTaskTaskRole37B81424",
     "PatientServiceDBB84F9BF9",
     "PatientServiceDBSecretAttachment90D77B03",
-    "localstackPatientServiceDBSecret20E0A9443fdaad7efa858a3daf9490cf0a702aeb",
+    "patientstackPatientServiceDBSecret2ECC87323fdaad7efa858a3daf9490cf0a702aeb",
     "PatientServiceDBSecurityGroup6B97C0E5",
     "PatientServiceDBSubnetGroupCED49D16",
-    "PatientServiceDBHealthCheck"
+    "PatientServiceDBHealthCheck",
+    "RedisCluster"
    ]
   },
   "ApiGatewayTaskDefinitionTaskRole78FC06E2": {
@@ -1825,6 +1946,24 @@
        {
         "Name": "SPRING_PROFILES_ACTIVE",
         "Value": "prod"
+       },
+       {
+        "Name": "REDIS_HOST",
+        "Value": {
+         "Fn::GetAtt": [
+          "RedisCluster",
+          "RedisEndpoint.Address"
+         ]
+        }
+       },
+       {
+        "Name": "REDIS_PORT",
+        "Value": {
+         "Fn::GetAtt": [
+          "RedisCluster",
+          "RedisEndpoint.Port"
+         ]
+        }
        },
        {
         "Name": "AUTH_SERVICE_URL",
@@ -1862,7 +2001,7 @@
       "Arn"
      ]
     },
-    "Family": "localstackApiGatewayTaskDefinition2CA71C36",
+    "Family": "patientstackApiGatewayTaskDefinition829C5F1C",
     "Memory": "512",
     "NetworkMode": "awsvpc",
     "RequiresCompatibilities": [
@@ -1963,13 +2102,14 @@
     "PatientManagementVPCPublicSubnet1DefaultRoute1E407ABB",
     "PatientManagementVPCPublicSubnet1RouteTableAssociationA39A24A4",
     "PatientManagementVPCPublicSubnet2DefaultRoute2DC1F916",
-    "PatientManagementVPCPublicSubnet2RouteTableAssociationCAC8BA09"
+    "PatientManagementVPCPublicSubnet2RouteTableAssociationCAC8BA09",
+    "RedisCluster"
    ]
   },
   "apigatewayLBSecurityGroup2356775F": {
    "Type": "AWS::EC2::SecurityGroup",
    "Properties": {
-    "GroupDescription": "Automatically created Security Group for ELB localstackapigatewayLBB219DCA9",
+    "GroupDescription": "Automatically created Security Group for ELB patientstackapigatewayLB80E6ECA3",
     "SecurityGroupIngress": [
      {
       "CidrIp": "0.0.0.0/0",
@@ -1982,9 +2122,12 @@
     "VpcId": {
      "Ref": "PatientManagementVPC522067E7"
     }
-   }
+   },
+   "DependsOn": [
+    "RedisCluster"
+   ]
   },
-  "apigatewayLBSecurityGrouptolocalstackapigatewayServiceSecurityGroup2C5AADAE400411037599": {
+  "apigatewayLBSecurityGrouptopatientstackapigatewayServiceSecurityGroup2B3A926C4004252EB70B": {
    "Type": "AWS::EC2::SecurityGroupEgress",
    "Properties": {
     "Description": "Load balancer to target",
@@ -2003,7 +2146,10 @@
     },
     "IpProtocol": "tcp",
     "ToPort": 4004
-   }
+   },
+   "DependsOn": [
+    "RedisCluster"
+   ]
   },
   "apigatewayLBPublicListener2C59AB20": {
    "Type": "AWS::ElasticLoadBalancingV2::Listener",
@@ -2021,7 +2167,10 @@
     },
     "Port": 80,
     "Protocol": "HTTP"
-   }
+   },
+   "DependsOn": [
+    "RedisCluster"
+   ]
   },
   "apigatewayLBPublicListenerECSGroup1D27E79B": {
    "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
@@ -2038,7 +2187,10 @@
     "VpcId": {
      "Ref": "PatientManagementVPC522067E7"
     }
-   }
+   },
+   "DependsOn": [
+    "RedisCluster"
+   ]
   },
   "apigatewayServiceBEFCB239": {
    "Type": "AWS::ECS::Service",
@@ -2090,6 +2242,16 @@
      }
     },
     "ServiceName": "api-gateway",
+    "ServiceRegistries": [
+     {
+      "RegistryArn": {
+       "Fn::GetAtt": [
+        "apigatewayServiceCloudmapService1D17DE8C",
+        "Arn"
+       ]
+      }
+     }
+    ],
     "TaskDefinition": {
      "Ref": "ApiGatewayTaskDefinitionBB9A2505"
     }
@@ -2097,13 +2259,48 @@
    "DependsOn": [
     "apigatewayLBPublicListenerECSGroup1D27E79B",
     "apigatewayLBPublicListener2C59AB20",
-    "ApiGatewayTaskDefinitionTaskRole78FC06E2"
+    "ApiGatewayTaskDefinitionTaskRole78FC06E2",
+    "RedisCluster"
+   ]
+  },
+  "apigatewayServiceCloudmapService1D17DE8C": {
+   "Type": "AWS::ServiceDiscovery::Service",
+   "Properties": {
+    "DnsConfig": {
+     "DnsRecords": [
+      {
+       "TTL": 60,
+       "Type": "A"
+      }
+     ],
+     "NamespaceId": {
+      "Fn::GetAtt": [
+       "PatientManagementClusterDefaultServiceDiscoveryNamespace72C5F264",
+       "Id"
+      ]
+     },
+     "RoutingPolicy": "MULTIVALUE"
+    },
+    "HealthCheckCustomConfig": {
+     "FailureThreshold": 1
+    },
+    "Name": "api-gateway",
+    "NamespaceId": {
+     "Fn::GetAtt": [
+      "PatientManagementClusterDefaultServiceDiscoveryNamespace72C5F264",
+      "Id"
+     ]
+    }
+   },
+   "DependsOn": [
+    "ApiGatewayTaskDefinitionTaskRole78FC06E2",
+    "RedisCluster"
    ]
   },
   "apigatewayServiceSecurityGroupF7452F15": {
    "Type": "AWS::EC2::SecurityGroup",
    "Properties": {
-    "GroupDescription": "localstack/api-gateway/Service/SecurityGroup",
+    "GroupDescription": "patient-stack/api-gateway/Service/SecurityGroup",
     "SecurityGroupEgress": [
      {
       "CidrIp": "0.0.0.0/0",
@@ -2116,10 +2313,11 @@
     }
    },
    "DependsOn": [
-    "ApiGatewayTaskDefinitionTaskRole78FC06E2"
+    "ApiGatewayTaskDefinitionTaskRole78FC06E2",
+    "RedisCluster"
    ]
   },
-  "apigatewayServiceSecurityGroupfromlocalstackapigatewayLBSecurityGroupF9ED65FE4004601B871F": {
+  "apigatewayServiceSecurityGroupfrompatientstackapigatewayLBSecurityGroupB7AE875540047D0AC131": {
    "Type": "AWS::EC2::SecurityGroupIngress",
    "Properties": {
     "Description": "Load balancer to target",
@@ -2140,8 +2338,929 @@
     "ToPort": 4004
    },
    "DependsOn": [
-    "ApiGatewayTaskDefinitionTaskRole78FC06E2"
+    "ApiGatewayTaskDefinitionTaskRole78FC06E2",
+    "RedisCluster"
    ]
+  },
+  "prometheusprodTaskTaskRoleBD4ECE57": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   }
+  },
+  "prometheusprodTask59E3CFBA": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Environment": [
+       {
+        "Name": "SPRING_KAFKA_BOOTSTRAP_SERVERS",
+        "Value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4511,localhost.localstack.cloud:4512"
+       },
+       {
+        "Name": "SPRING_DATA_REDIS_HOST",
+        "Value": {
+         "Fn::GetAtt": [
+          "RedisCluster",
+          "RedisEndpoint.Address"
+         ]
+        }
+       },
+       {
+        "Name": "SPRING_DATA_REDIS_PORT",
+        "Value": {
+         "Fn::GetAtt": [
+          "RedisCluster",
+          "RedisEndpoint.Port"
+         ]
+        }
+       },
+       {
+        "Name": "SPRING_CACHE_TYPE",
+        "Value": "redis"
+       }
+      ],
+      "Essential": true,
+      "Image": "prometheus-prod",
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "prometheusprodLogGroup83C62AB2"
+        },
+        "awslogs-stream-prefix": "prometheus-prod",
+        "awslogs-region": {
+         "Ref": "AWS::Region"
+        }
+       }
+      },
+      "Name": "prometheus-prod",
+      "PortMappings": [
+       {
+        "ContainerPort": 9090,
+        "HostPort": 9090,
+        "Protocol": "tcp"
+       }
+      ]
+     }
+    ],
+    "Cpu": "256",
+    "ExecutionRoleArn": {
+     "Fn::GetAtt": [
+      "prometheusprodTaskExecutionRole020F1700",
+      "Arn"
+     ]
+    },
+    "Family": "patientstackprometheusprodTask32BD2D92",
+    "Memory": "512",
+    "NetworkMode": "awsvpc",
+    "RequiresCompatibilities": [
+     "FARGATE"
+    ],
+    "TaskRoleArn": {
+     "Fn::GetAtt": [
+      "prometheusprodTaskTaskRoleBD4ECE57",
+      "Arn"
+     ]
+    }
+   }
+  },
+  "prometheusprodTaskExecutionRole020F1700": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   }
+  },
+  "prometheusprodTaskExecutionRoleDefaultPolicyC42AD003": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "prometheusprodLogGroup83C62AB2",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "prometheusprodTaskExecutionRoleDefaultPolicyC42AD003",
+    "Roles": [
+     {
+      "Ref": "prometheusprodTaskExecutionRole020F1700"
+     }
+    ]
+   }
+  },
+  "prometheusprodLogGroup83C62AB2": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": "/ecs/prometheus-prod",
+    "RetentionInDays": 1
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "prometheusprodService1CBA8076": {
+   "Type": "AWS::ECS::Service",
+   "Properties": {
+    "Cluster": {
+     "Ref": "PatientManagementCluster98E10F8D"
+    },
+    "DeploymentConfiguration": {
+     "Alarms": {
+      "AlarmNames": [],
+      "Enable": false,
+      "Rollback": false
+     },
+     "MaximumPercent": 200,
+     "MinimumHealthyPercent": 50
+    },
+    "EnableECSManagedTags": false,
+    "LaunchType": "FARGATE",
+    "NetworkConfiguration": {
+     "AwsvpcConfiguration": {
+      "AssignPublicIp": "DISABLED",
+      "SecurityGroups": [
+       {
+        "Fn::GetAtt": [
+         "prometheusprodSecurityGroupE0D028A0",
+         "GroupId"
+        ]
+       }
+      ],
+      "Subnets": [
+       {
+        "Ref": "PatientManagementVPCPrivateSubnet1Subnet05B10E79"
+       },
+       {
+        "Ref": "PatientManagementVPCPrivateSubnet2Subnet8A2E409C"
+       }
+      ]
+     }
+    },
+    "ServiceRegistries": [
+     {
+      "RegistryArn": {
+       "Fn::GetAtt": [
+        "prometheusprodCloudmapServiceCD2B18F2",
+        "Arn"
+       ]
+      }
+     }
+    ],
+    "TaskDefinition": {
+     "Ref": "prometheusprodTask59E3CFBA"
+    }
+   },
+   "DependsOn": [
+    "patientserviceCloudmapService176D181B",
+    "patientserviceSecurityGroup4670B1A9",
+    "patientserviceServiceCA2DF3B3",
+    "prometheusprodTaskTaskRoleBD4ECE57"
+   ]
+  },
+  "prometheusprodCloudmapServiceCD2B18F2": {
+   "Type": "AWS::ServiceDiscovery::Service",
+   "Properties": {
+    "DnsConfig": {
+     "DnsRecords": [
+      {
+       "TTL": 60,
+       "Type": "A"
+      }
+     ],
+     "NamespaceId": {
+      "Fn::GetAtt": [
+       "PatientManagementClusterDefaultServiceDiscoveryNamespace72C5F264",
+       "Id"
+      ]
+     },
+     "RoutingPolicy": "MULTIVALUE"
+    },
+    "HealthCheckCustomConfig": {
+     "FailureThreshold": 1
+    },
+    "Name": "prometheus-prod",
+    "NamespaceId": {
+     "Fn::GetAtt": [
+      "PatientManagementClusterDefaultServiceDiscoveryNamespace72C5F264",
+      "Id"
+     ]
+    }
+   },
+   "DependsOn": [
+    "patientserviceCloudmapService176D181B",
+    "patientserviceSecurityGroup4670B1A9",
+    "patientserviceServiceCA2DF3B3",
+    "prometheusprodTaskTaskRoleBD4ECE57"
+   ]
+  },
+  "prometheusprodSecurityGroupE0D028A0": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "patient-stack/prometheus-prod/SecurityGroup",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "PatientManagementVPC522067E7"
+    }
+   },
+   "DependsOn": [
+    "patientserviceCloudmapService176D181B",
+    "patientserviceSecurityGroup4670B1A9",
+    "patientserviceServiceCA2DF3B3",
+    "prometheusprodTaskTaskRoleBD4ECE57"
+   ]
+  },
+  "GrafanaTaskDefinitionTaskRole326ACB1B": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   }
+  },
+  "GrafanaTaskDefinitionFDC31B9A": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Essential": true,
+      "Image": "grafana/grafana",
+      "Name": "GrafanaContainer",
+      "PortMappings": [
+       {
+        "ContainerPort": 3000,
+        "Protocol": "tcp"
+       }
+      ]
+     }
+    ],
+    "Cpu": "256",
+    "Family": "patientstackGrafanaTaskDefinition815DC9CD",
+    "Memory": "512",
+    "NetworkMode": "awsvpc",
+    "RequiresCompatibilities": [
+     "FARGATE"
+    ],
+    "TaskRoleArn": {
+     "Fn::GetAtt": [
+      "GrafanaTaskDefinitionTaskRole326ACB1B",
+      "Arn"
+     ]
+    }
+   }
+  },
+  "GrafanaServiceLB214A749C": {
+   "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+   "Properties": {
+    "LoadBalancerAttributes": [
+     {
+      "Key": "deletion_protection.enabled",
+      "Value": "false"
+     }
+    ],
+    "Scheme": "internet-facing",
+    "SecurityGroups": [
+     {
+      "Fn::GetAtt": [
+       "GrafanaServiceLBSecurityGroup44D0E7E2",
+       "GroupId"
+      ]
+     }
+    ],
+    "Subnets": [
+     {
+      "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1Subnet3C273B99"
+     },
+     {
+      "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2Subnet95FF715A"
+     }
+    ],
+    "Type": "application"
+   },
+   "DependsOn": [
+    "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1DefaultRouteFF4E2178",
+    "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1RouteTableAssociation8B583A17",
+    "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2DefaultRouteB1375520",
+    "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2RouteTableAssociation43E5803C"
+   ]
+  },
+  "GrafanaServiceLBSecurityGroup44D0E7E2": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Automatically created Security Group for ELB patientstackGrafanaServiceLB36E29A82",
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow from anyone on port 3000",
+      "FromPort": 3000,
+      "IpProtocol": "tcp",
+      "ToPort": 3000
+     }
+    ],
+    "VpcId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521"
+    }
+   }
+  },
+  "GrafanaServiceLBSecurityGrouptopatientstackGrafanaServiceSecurityGroup18BF45903000A7461329": {
+   "Type": "AWS::EC2::SecurityGroupEgress",
+   "Properties": {
+    "Description": "Load balancer to target",
+    "DestinationSecurityGroupId": {
+     "Fn::GetAtt": [
+      "GrafanaServiceSecurityGroupB7292F09",
+      "GroupId"
+     ]
+    },
+    "FromPort": 3000,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "GrafanaServiceLBSecurityGroup44D0E7E2",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "ToPort": 3000
+   }
+  },
+  "GrafanaServiceLBPublicListener75B73FAB": {
+   "Type": "AWS::ElasticLoadBalancingV2::Listener",
+   "Properties": {
+    "DefaultActions": [
+     {
+      "TargetGroupArn": {
+       "Ref": "GrafanaServiceLBPublicListenerECSGroupE5E0F4FB"
+      },
+      "Type": "forward"
+     }
+    ],
+    "LoadBalancerArn": {
+     "Ref": "GrafanaServiceLB214A749C"
+    },
+    "Port": 3000,
+    "Protocol": "HTTP"
+   }
+  },
+  "GrafanaServiceLBPublicListenerECSGroupE5E0F4FB": {
+   "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+   "Properties": {
+    "Port": 80,
+    "Protocol": "HTTP",
+    "TargetGroupAttributes": [
+     {
+      "Key": "stickiness.enabled",
+      "Value": "false"
+     }
+    ],
+    "TargetType": "ip",
+    "VpcId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521"
+    }
+   }
+  },
+  "GrafanaService14396AE8": {
+   "Type": "AWS::ECS::Service",
+   "Properties": {
+    "Cluster": {
+     "Ref": "EcsDefaultClusterMnL3mNNYN926A5246"
+    },
+    "DeploymentConfiguration": {
+     "Alarms": {
+      "AlarmNames": [],
+      "Enable": false,
+      "Rollback": false
+     },
+     "MaximumPercent": 200,
+     "MinimumHealthyPercent": 50
+    },
+    "DesiredCount": 1,
+    "EnableECSManagedTags": false,
+    "HealthCheckGracePeriodSeconds": 60,
+    "LaunchType": "FARGATE",
+    "LoadBalancers": [
+     {
+      "ContainerName": "GrafanaContainer",
+      "ContainerPort": 3000,
+      "TargetGroupArn": {
+       "Ref": "GrafanaServiceLBPublicListenerECSGroupE5E0F4FB"
+      }
+     }
+    ],
+    "NetworkConfiguration": {
+     "AwsvpcConfiguration": {
+      "AssignPublicIp": "DISABLED",
+      "SecurityGroups": [
+       {
+        "Fn::GetAtt": [
+         "GrafanaServiceSecurityGroupB7292F09",
+         "GroupId"
+        ]
+       }
+      ],
+      "Subnets": [
+       {
+        "Ref": "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet1Subnet075EFF4C"
+       },
+       {
+        "Ref": "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet2SubnetE4CEDF73"
+       }
+      ]
+     }
+    },
+    "TaskDefinition": {
+     "Ref": "GrafanaTaskDefinitionFDC31B9A"
+    }
+   },
+   "DependsOn": [
+    "GrafanaServiceLBPublicListenerECSGroupE5E0F4FB",
+    "GrafanaServiceLBPublicListener75B73FAB",
+    "GrafanaTaskDefinitionTaskRole326ACB1B"
+   ]
+  },
+  "GrafanaServiceSecurityGroupB7292F09": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "patient-stack/GrafanaService/Service/SecurityGroup",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521"
+    }
+   },
+   "DependsOn": [
+    "GrafanaTaskDefinitionTaskRole326ACB1B"
+   ]
+  },
+  "GrafanaServiceSecurityGroupfrompatientstackGrafanaServiceLBSecurityGroup90A6636D3000F701C368": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "Description": "Load balancer to target",
+    "FromPort": 3000,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "GrafanaServiceSecurityGroupB7292F09",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "GrafanaServiceLBSecurityGroup44D0E7E2",
+      "GroupId"
+     ]
+    },
+    "ToPort": 3000
+   },
+   "DependsOn": [
+    "GrafanaTaskDefinitionTaskRole326ACB1B"
+   ]
+  },
+  "EcsDefaultClusterMnL3mNNYN926A5246": {
+   "Type": "AWS::ECS::Cluster"
+  },
+  "EcsDefaultClusterMnL3mNNYNVpc7788A521": {
+   "Type": "AWS::EC2::VPC",
+   "Properties": {
+    "CidrBlock": "10.0.0.0/16",
+    "EnableDnsHostnames": true,
+    "EnableDnsSupport": true,
+    "InstanceTenancy": "default",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc"
+     }
+    ]
+   }
+  },
+  "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1Subnet3C273B99": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      0,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.0.0/18",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521"
+    }
+   }
+  },
+  "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1RouteTableA1FD6ACC": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521"
+    }
+   }
+  },
+  "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1RouteTableAssociation8B583A17": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1RouteTableA1FD6ACC"
+    },
+    "SubnetId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1Subnet3C273B99"
+    }
+   }
+  },
+  "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1DefaultRouteFF4E2178": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpcIGW9C2C2B8F"
+    },
+    "RouteTableId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1RouteTableA1FD6ACC"
+    }
+   },
+   "DependsOn": [
+    "EcsDefaultClusterMnL3mNNYNVpcVPCGW2447264E"
+   ]
+  },
+  "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1EIP8704DB2F": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet1"
+     }
+    ]
+   }
+  },
+  "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1NATGateway5E3732C1": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1EIP8704DB2F",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1Subnet3C273B99"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet1"
+     }
+    ]
+   },
+   "DependsOn": [
+    "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1DefaultRouteFF4E2178",
+    "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1RouteTableAssociation8B583A17"
+   ]
+  },
+  "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2Subnet95FF715A": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      1,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.64.0/18",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521"
+    }
+   }
+  },
+  "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2RouteTable263DEAA5": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521"
+    }
+   }
+  },
+  "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2RouteTableAssociation43E5803C": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2RouteTable263DEAA5"
+    },
+    "SubnetId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2Subnet95FF715A"
+    }
+   }
+  },
+  "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2DefaultRouteB1375520": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpcIGW9C2C2B8F"
+    },
+    "RouteTableId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2RouteTable263DEAA5"
+    }
+   },
+   "DependsOn": [
+    "EcsDefaultClusterMnL3mNNYNVpcVPCGW2447264E"
+   ]
+  },
+  "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2EIPF0764873": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet2"
+     }
+    ]
+   }
+  },
+  "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2NATGateway4C855E00": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2EIPF0764873",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2Subnet95FF715A"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet2"
+     }
+    ]
+   },
+   "DependsOn": [
+    "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2DefaultRouteB1375520",
+    "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2RouteTableAssociation43E5803C"
+   ]
+  },
+  "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet1Subnet075EFF4C": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      0,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.128.0/18",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PrivateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521"
+    }
+   }
+  },
+  "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet1RouteTable4F1D2E36": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PrivateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521"
+    }
+   }
+  },
+  "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet1RouteTableAssociation34B92275": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet1RouteTable4F1D2E36"
+    },
+    "SubnetId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet1Subnet075EFF4C"
+    }
+   }
+  },
+  "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet1DefaultRouteA5ADF694": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1NATGateway5E3732C1"
+    },
+    "RouteTableId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet1RouteTable4F1D2E36"
+    }
+   }
+  },
+  "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet2SubnetE4CEDF73": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      1,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.192.0/18",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PrivateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521"
+    }
+   }
+  },
+  "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet2RouteTableDCE46591": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PrivateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521"
+    }
+   }
+  },
+  "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet2RouteTableAssociation111C622F": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet2RouteTableDCE46591"
+    },
+    "SubnetId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet2SubnetE4CEDF73"
+    }
+   }
+  },
+  "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet2DefaultRoute20CE2D89": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2NATGateway4C855E00"
+    },
+    "RouteTableId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet2RouteTableDCE46591"
+    }
+   }
+  },
+  "EcsDefaultClusterMnL3mNNYNVpcIGW9C2C2B8F": {
+   "Type": "AWS::EC2::InternetGateway",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc"
+     }
+    ]
+   }
+  },
+  "EcsDefaultClusterMnL3mNNYNVpcVPCGW2447264E": {
+   "Type": "AWS::EC2::VPCGatewayAttachment",
+   "Properties": {
+    "InternetGatewayId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpcIGW9C2C2B8F"
+    },
+    "VpcId": {
+     "Ref": "EcsDefaultClusterMnL3mNNYNVpc7788A521"
+    }
+   }
   }
  },
  "Outputs": {
@@ -2162,6 +3281,30 @@
       {
        "Fn::GetAtt": [
         "apigatewayLB6F52EED1",
+        "DNSName"
+       ]
+      }
+     ]
+    ]
+   }
+  },
+  "GrafanaServiceLoadBalancerDNSE3CF9C3B": {
+   "Value": {
+    "Fn::GetAtt": [
+     "GrafanaServiceLB214A749C",
+     "DNSName"
+    ]
+   }
+  },
+  "GrafanaServiceServiceURL0409780C": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "http://",
+      {
+       "Fn::GetAtt": [
+        "GrafanaServiceLB214A749C",
         "DNSName"
        ]
       }

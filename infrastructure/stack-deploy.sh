@@ -1,40 +1,49 @@
 #!/bin/bash
 
-set -e # Stops the script if any command fails
+# Stop the script if any command fails
+set -e
 
-BUCKET_NAME="patient-management-templates"
-TEMPLATE_KEY="localstack.template.json"
+# Config
+STACK_NAME="patient-management"
+BUCKET_NAME="cf-templates"
+TEMPLATE_KEY="patient-stack.template.json"
 TEMPLATE_FILE="./cdk.out/$TEMPLATE_KEY"
+REGION="us-east-1"
+LOCALSTACK_URL="http://localhost:4566"
+TEMPLATE_URL="$LOCALSTACK_URL/$BUCKET_NAME/$TEMPLATE_KEY"
 
 
+# Required for LocalStack CLI Compatibility
+export AWS_DEFAULT_REGION=$REGION
+export AWS_ACCESS_KEY_ID=test
+export AWS_SECRET_ACCESS_KEY=test
 
-# Cleanup existing stack
-aws  --endpoint-url=http://localhost:4566 cloudformation delete-stack \
-    --stack-name patient-management
-#
-#if ! aws --endpoint-url=http://localhost:4566 s3api head-bucket --bucket $BUCKET_NAME  2>/dev/null; then
-#
-#  aws --endpoint-url=http://localhost:4566 s3api create-bucket \
-#    --bucket $BUCKET_NAME
-#
-#fi
-#
-#aws --endpoint-url=http://localhost:4566 s3api put-object \
-#    --bucket $BUCKET_NAME \
-#    --key $TEMPLATE_KEY \
-#    --body $TEMPLATE_FILE
-#
-#aws  --endpoint-url=http://localhost:4566 cloudformation create-stack \
-#    --stack-name patient-management \
-#    --template-url "http://localstack:4566/$BUCKET_NAME/$TEMPLATE_KEY"
-#
-#aws --endpoint-url=http://localhost:4566 cloudformation wait stack-create-complete \
-#    --stack-name patient-management
 
-aws --endpoint-url=http://localhost:4566 cloudformation deploy \
-    --stack-name patient-management \
-    --template-file $TEMPLATE_FILE
+echo "Ensuring S3 bucket for templates exists..."
+if ! aws --endpoint-url=$LOCALSTACK_URL s3api head-bucket --bucket $BUCKET_NAME 2>/dev/null; then
+  echo "Bucket not found, creating s3://$BUCKET_NAME to store CloudFormation templates..."
+  aws --endpoint-url=$LOCALSTACK_URL s3 mb s3://$BUCKET_NAME
+fi
 
-# Get Api Gateway DNS name
-aws --endpoint-url=http://localhost:4566 elbv2 describe-load-balancers \
-    --query "LoadBalancers[0].DNSName" --output text
+echo "Uploading CloudFormation template to S3..."
+aws --endpoint-url=$LOCALSTACK_URL s3 cp "$TEMPLATE_FILE" "s3://$BUCKET_NAME/$TEMPLATE_KEY"
+
+if aws --endpoint-url=$LOCALSTACK_URL cloudformation describe-stacks --stack-name $STACK_NAME >/dev/null 2>&1; then
+   echo "Deleting existing CloudFormation stack '$STACK_NAME'..."
+   aws  --endpoint-url=$LOCALSTACK_URL cloudformation delete-stack --stack-name $STACK_NAME
+fi
+
+
+echo "Creating CloudFormation stack '$STACK_NAME'..."
+aws --endpoint-url=$LOCALSTACK_URL cloudformation create-stack \
+    --stack-name $STACK_NAME \
+    --template-url $TEMPLATE_URL
+
+echo "Waiting for stack creation to complete..."
+aws --endpoint-url=$LOCALSTACK_URL cloudformation wait stack-create-complete \
+    --stack-name $STACK_NAME
+
+
+echo "Looking for last ALB (api-gateway)..."
+aws --endpoint-url=$LOCALSTACK_URL elbv2 describe-load-balancers \
+    --query "LoadBalancers[-1].DNSName" --output text

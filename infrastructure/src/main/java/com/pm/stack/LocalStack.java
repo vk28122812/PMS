@@ -6,6 +6,8 @@ import software.amazon.awscdk.services.ec2.InstanceType;
 import software.amazon.awscdk.services.ecs.*;
 import software.amazon.awscdk.services.ecs.Protocol;
 import software.amazon.awscdk.services.ecs.patterns.ApplicationLoadBalancedFargateService;
+import software.amazon.awscdk.services.elasticache.CfnCacheCluster;
+import software.amazon.awscdk.services.elasticache.CfnSubnetGroup;
 import software.amazon.awscdk.services.logs.LogGroup;
 import software.amazon.awscdk.services.logs.RetentionDays;
 import software.amazon.awscdk.services.msk.CfnCluster;
@@ -22,6 +24,7 @@ public class LocalStack extends Stack {
 
     private final Vpc vpc;
     private final Cluster ecsCluster;
+    private final CfnCacheCluster elastiCacheCluster;
 
     public LocalStack(final App scope, final String id, final StackProps props) {
         super(scope, id, props);
@@ -39,6 +42,8 @@ public class LocalStack extends Stack {
         CfnCluster kafkaCluster = createMskCluster();
 
         this.ecsCluster = createEcsCluster();
+        this.elastiCacheCluster = createRedisCluster();
+
 
         FargateService billingService = createFargateService("billing-service", "billing-service",
                 List.of(4001, 9001),
@@ -62,7 +67,6 @@ public class LocalStack extends Stack {
         authService.getNode().addDependency(authServiceDbHealthCheck);
 
 
-
         analyticsService.getNode().addDependency(kafkaCluster);
 
         FargateService patientService = createFargateService("patient-service", "patient-service",
@@ -77,8 +81,20 @@ public class LocalStack extends Stack {
         patientService.getNode().addDependency(patientServiceDb);
         patientService.getNode().addDependency(billingService);
         patientService.getNode().addDependency(kafkaCluster);
+        patientService.getNode().addDependency(elastiCacheCluster);
 
-        createApiGateway();
+
+        ApplicationLoadBalancedFargateService apiGateway = createApiGateway();
+        apiGateway.getNode().addDependency(elastiCacheCluster);
+
+        FargateService prometheusService = createFargateService("prometheus-prod", "prometheus-prod",
+                List.of(9090),
+                null,
+                null
+        );
+        prometheusService.getNode().addDependency(patientService);
+
+        createGrafanaService();
 
     }
 
@@ -156,7 +172,7 @@ public class LocalStack extends Stack {
     // Task Definition => blueprint for the container (memory, image, env, etc.)
     private FargateService createFargateService(String id, String imageName, List<Integer> ports, DatabaseInstance db, Map<String, String> additionalEnvVar) {
 
-        FargateTaskDefinition taskDefinition = FargateTaskDefinition.Builder.create(this, id+"Task")
+        FargateTaskDefinition taskDefinition = FargateTaskDefinition.Builder.create(this, id + "Task")
                 .cpu(256)
                 .memoryLimitMiB(512)
                 .build();
@@ -183,10 +199,14 @@ public class LocalStack extends Stack {
         Map<String, String> envVars = new HashMap<>();
 
         envVars.put("SPRING_KAFKA_BOOTSTRAP_SERVERS", "localhost.localstack.cloud:4510,localhost.localstack.cloud:4511,localhost.localstack.cloud:4512");
+        envVars.put("SPRING_CACHE_TYPE", "redis");
+        envVars.put("SPRING_DATA_REDIS_HOST", elastiCacheCluster.getAttrRedisEndpointAddress());
+        envVars.put("SPRING_DATA_REDIS_PORT", elastiCacheCluster.getAttrRedisEndpointPort());
+
         if (additionalEnvVar != null) {
             envVars.putAll(additionalEnvVar);
         }
-        if(db != null){
+        if (db != null) {
             envVars.put("SPRING_DATASOURCE_URL", "jdbc:postgresql://%s:%s/%s-db".formatted(
                     db.getDbInstanceEndpointAddress(),
                     db.getDbInstanceEndpointPort(),
@@ -201,21 +221,17 @@ public class LocalStack extends Stack {
             envVars.put("SPRING_SQL_INIT_MODE", "always");
             envVars.put("SPRING_DATASOURCE_HIKARI_INITIALIZATION_FAIL_TIMEOUT", "600000");
 
+
         }
 
         containerOptionsBuilder.environment(envVars);
 
         taskDefinition.addContainer(id, containerOptionsBuilder.build());
 
-        int servicePort = ports.get(0);
-
         return FargateService.Builder.create(this, id)
                 .cluster(this.ecsCluster)
                 .cloudMapOptions(CloudMapOptions.builder()
                         .name(id)
-                        .cloudMapNamespace(this.ecsCluster.getDefaultCloudMapNamespace())
-                        .dnsRecordType(DnsRecordType.A)
-                        .containerPort(servicePort)
                         .build())
                 .taskDefinition(taskDefinition)
                 .assignPublicIp(false)
@@ -223,9 +239,8 @@ public class LocalStack extends Stack {
 
     }
 
-
-    public void createApiGateway(){
-        FargateTaskDefinition taskDefinition = FargateTaskDefinition.Builder.create(this,"ApiGatewayTaskDefinition")
+    public ApplicationLoadBalancedFargateService createApiGateway() {
+        FargateTaskDefinition taskDefinition = FargateTaskDefinition.Builder.create(this, "ApiGatewayTaskDefinition")
                 .cpu(256)
                 .memoryLimitMiB(512)
                 .build();
@@ -237,7 +252,9 @@ public class LocalStack extends Stack {
                 .environment(
                         Map.of(
                                 "SPRING_PROFILES_ACTIVE", "prod",
-                                "AUTH_SERVICE_URL", "http://auth-service.patient-management.local:4005"
+                                "AUTH_SERVICE_URL", "http://auth-service.patient-management.local:4005",
+                                "REDIS_HOST", elastiCacheCluster.getAttrRedisEndpointAddress(),
+                                "REDIS_PORT", elastiCacheCluster.getAttrRedisEndpointPort()
                         )
                 )
                 .portMappings(List.of(4004).stream()
@@ -266,11 +283,60 @@ public class LocalStack extends Stack {
                 .serviceName(imageName)
                 .desiredCount(1)
                 .healthCheckGracePeriod(Duration.seconds(60))
+                .publicLoadBalancer(true)
+                .cloudMapOptions(CloudMapOptions.builder()
+                        .name(imageName)
+                        .dnsRecordType(DnsRecordType.A) // Map a domain name to an actual IP of ecs task
+                        .build())
+                .build();
+
+        return apiGateway;
+    }
+
+    private CfnCacheCluster createRedisCluster() {
+        // Create a subnet group for the cache cluster and links existing vpc subnets to it
+        CfnSubnetGroup redisSubnet = CfnSubnetGroup.Builder
+                .create(this, "RedisSubnetGroup")
+                .description("Redis/elasticache subnet group")
+                .subnetIds(this.vpc.getPrivateSubnets().stream()
+                        .map(ISubnet::getSubnetId)
+                        .collect(Collectors.toList()))
+                .build();
+
+        return CfnCacheCluster.Builder.create(this, "RedisCluster")
+                .cacheNodeType("cache.t2.micro")
+                .engine("redis")
+                .numCacheNodes(1)
+                .cacheSubnetGroupName(redisSubnet.getCacheSubnetGroupName())
+                .vpcSecurityGroupIds(List.of(vpc.getVpcDefaultSecurityGroup())) // same security group as the vpc, all traffic inside vpc can access redis
                 .build();
 
     }
 
+    private ApplicationLoadBalancedFargateService createGrafanaService() {
+        FargateTaskDefinition taskDefinition = FargateTaskDefinition.Builder
+                .create(this, "GrafanaTaskDefinition")
+                .cpu(256)
+                .memoryLimitMiB(512)
+                .build();
 
+        taskDefinition.addContainer("GrafanaContainer", ContainerDefinitionOptions.builder()
+                .image(ContainerImage.fromRegistry("grafana/grafana"))
+                .portMappings(List.of(PortMapping.builder()
+                            .containerPort(3000)
+                        .build()))
+                .build());
+
+        ApplicationLoadBalancedFargateService service = ApplicationLoadBalancedFargateService.Builder
+                .create(this, "GrafanaService")
+                .taskDefinition(taskDefinition)
+                .publicLoadBalancer(true)
+                .listenerPort(3000)
+                .desiredCount(1)
+                .build();
+
+        return service;
+    }
 
 
     public static void main(String[] args) {
@@ -283,7 +349,7 @@ public class LocalStack extends Stack {
                 .synthesizer(new BootstraplessSynthesizer())
                 .build();
 
-        new LocalStack(app, "localstack", props);
+        new LocalStack(app, "patient-stack", props);
         app.synth(); // Take our app and synthesize it to a cloudformation template and place it in the cdk.out directory
 
         System.out.println("App synthesizing in progress");
