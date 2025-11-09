@@ -6,7 +6,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "name": "John Doe",
+  "name": "John Doe Updated",
   "email": "john.doe@example.com",
   "address": "Updated 123 Main St, Anytown, USA",
   "dateOfBirth": "2000-01-01"

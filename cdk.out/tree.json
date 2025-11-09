@@ -1451,8 +1451,8 @@
                   "brokerAzDistribution": "DEFAULT"
                 },
                 "clusterName": "kafka-cluster",
-                "kafkaVersion": "2.5.0",
-                "numberOfBrokerNodes": 3
+                "kafkaVersion": "3.5.1",
+                "numberOfBrokerNodes": 2
               }
             },
             "constructInfo": {
@@ -1547,7 +1547,7 @@
                         "environment": [
                           {
                             "name": "SPRING_KAFKA_BOOTSTRAP_SERVERS",
-                            "value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4511,localhost.localstack.cloud:4512"
+                            "value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4513,localhost.localstack.cloud:4514"
                           },
                           {
                             "name": "SPRING_DATA_REDIS_HOST",
@@ -1972,7 +1972,7 @@
                         "environment": [
                           {
                             "name": "SPRING_KAFKA_BOOTSTRAP_SERVERS",
-                            "value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4511,localhost.localstack.cloud:4512"
+                            "value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4513,localhost.localstack.cloud:4514"
                           },
                           {
                             "name": "SPRING_DATA_REDIS_HOST",
@@ -2457,7 +2457,7 @@
                           },
                           {
                             "name": "SPRING_KAFKA_BOOTSTRAP_SERVERS",
-                            "value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4511,localhost.localstack.cloud:4512"
+                            "value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4513,localhost.localstack.cloud:4514"
                           },
                           {
                             "name": "SPRING_DATA_REDIS_HOST",
@@ -2938,7 +2938,7 @@
                           },
                           {
                             "name": "SPRING_KAFKA_BOOTSTRAP_SERVERS",
-                            "value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4511,localhost.localstack.cloud:4512"
+                            "value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4513,localhost.localstack.cloud:4514"
                           },
                           {
                             "name": "SPRING_DATA_REDIS_HOST",
@@ -3423,7 +3423,7 @@
                           },
                           {
                             "name": "SPRING_KAFKA_BOOTSTRAP_SERVERS",
-                            "value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4511,localhost.localstack.cloud:4512"
+                            "value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4513,localhost.localstack.cloud:4514"
                           },
                           {
                             "name": "SPRING_DATA_REDIS_HOST",
@@ -3851,15 +3851,6 @@
                         },
                         "environment": [
                           {
-                            "name": "REDIS_PORT",
-                            "value": {
-                              "Fn::GetAtt": [
-                                "RedisCluster",
-                                "RedisEndpoint.Port"
-                              ]
-                            }
-                          },
-                          {
                             "name": "REDIS_HOST",
                             "value": {
                               "Fn::GetAtt": [
@@ -3869,12 +3860,21 @@
                             }
                           },
                           {
-                            "name": "SPRING_PROFILES_ACTIVE",
-                            "value": "prod"
+                            "name": "REDIS_PORT",
+                            "value": {
+                              "Fn::GetAtt": [
+                                "RedisCluster",
+                                "RedisEndpoint.Port"
+                              ]
+                            }
                           },
                           {
                             "name": "AUTH_SERVICE_URL",
                             "value": "http://auth-service.patient-management.local:4005"
+                          },
+                          {
+                            "name": "SPRING_PROFILES_ACTIVE",
+                            "value": "prod"
                           }
                         ]
                       }

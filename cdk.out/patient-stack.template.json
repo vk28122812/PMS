@@ -827,8 +827,8 @@
      "InstanceType": "kafka.m5.large"
     },
     "ClusterName": "kafka-cluster",
-    "KafkaVersion": "2.5.0",
-    "NumberOfBrokerNodes": 3
+    "KafkaVersion": "3.5.1",
+    "NumberOfBrokerNodes": 2
    }
   },
   "billingserviceTaskTaskRoleBB19ED52": {
@@ -856,7 +856,7 @@
       "Environment": [
        {
         "Name": "SPRING_KAFKA_BOOTSTRAP_SERVERS",
-        "Value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4511,localhost.localstack.cloud:4512"
+        "Value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4513,localhost.localstack.cloud:4514"
        },
        {
         "Name": "SPRING_DATA_REDIS_HOST",
@@ -1119,7 +1119,7 @@
       "Environment": [
        {
         "Name": "SPRING_KAFKA_BOOTSTRAP_SERVERS",
-        "Value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4511,localhost.localstack.cloud:4512"
+        "Value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4513,localhost.localstack.cloud:4514"
        },
        {
         "Name": "SPRING_DATA_REDIS_HOST",
@@ -1440,7 +1440,7 @@
        },
        {
         "Name": "SPRING_KAFKA_BOOTSTRAP_SERVERS",
-        "Value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4511,localhost.localstack.cloud:4512"
+        "Value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4513,localhost.localstack.cloud:4514"
        },
        {
         "Name": "SPRING_DATA_REDIS_HOST",
@@ -1772,7 +1772,7 @@
        },
        {
         "Name": "SPRING_KAFKA_BOOTSTRAP_SERVERS",
-        "Value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4511,localhost.localstack.cloud:4512"
+        "Value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4513,localhost.localstack.cloud:4514"
        },
        {
         "Name": "SPRING_DATA_REDIS_HOST",
@@ -2096,7 +2096,7 @@
        },
        {
         "Name": "SPRING_KAFKA_BOOTSTRAP_SERVERS",
-        "Value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4511,localhost.localstack.cloud:4512"
+        "Value": "localhost.localstack.cloud:4510,localhost.localstack.cloud:4513,localhost.localstack.cloud:4514"
        },
        {
         "Name": "SPRING_DATA_REDIS_HOST",
@@ -2390,15 +2390,6 @@
      {
       "Environment": [
        {
-        "Name": "REDIS_PORT",
-        "Value": {
-         "Fn::GetAtt": [
-          "RedisCluster",
-          "RedisEndpoint.Port"
-         ]
-        }
-       },
-       {
         "Name": "REDIS_HOST",
         "Value": {
          "Fn::GetAtt": [
@@ -2408,12 +2399,21 @@
         }
        },
        {
-        "Name": "SPRING_PROFILES_ACTIVE",
-        "Value": "prod"
+        "Name": "REDIS_PORT",
+        "Value": {
+         "Fn::GetAtt": [
+          "RedisCluster",
+          "RedisEndpoint.Port"
+         ]
+        }
        },
        {
         "Name": "AUTH_SERVICE_URL",
         "Value": "http://auth-service.patient-management.local:4005"
+       },
+       {
+        "Name": "SPRING_PROFILES_ACTIVE",
+        "Value": "prod"
        }
       ],
       "Essential": true,

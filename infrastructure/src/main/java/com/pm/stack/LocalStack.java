@@ -156,8 +156,8 @@ public class LocalStack extends Stack {
 
         return CfnCluster.Builder.create(this, "MskCluster")
                 .clusterName("kafka-cluster")
-                .kafkaVersion("2.5.0")
-                .numberOfBrokerNodes(3)
+                .kafkaVersion("3.5.1")
+                .numberOfBrokerNodes(2)
                 .brokerNodeGroupInfo(CfnCluster.BrokerNodeGroupInfoProperty.builder()
                         .instanceType("kafka.m5.large")
                         .clientSubnets(vpc.getPrivateSubnets().stream()
@@ -209,7 +209,7 @@ public class LocalStack extends Stack {
 
         Map<String, String> envVars = new HashMap<>();
 
-        envVars.put("SPRING_KAFKA_BOOTSTRAP_SERVERS", "localhost.localstack.cloud:4510,localhost.localstack.cloud:4511,localhost.localstack.cloud:4512");
+        envVars.put("SPRING_KAFKA_BOOTSTRAP_SERVERS", "localhost.localstack.cloud:4510,localhost.localstack.cloud:4513,localhost.localstack.cloud:4514");
         envVars.put("SPRING_CACHE_TYPE", "redis");
         envVars.put("SPRING_DATA_REDIS_HOST", elastiCacheCluster.getAttrRedisEndpointAddress());
         envVars.put("SPRING_DATA_REDIS_PORT", elastiCacheCluster.getAttrRedisEndpointPort());

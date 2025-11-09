@@ -1,9 +1,4 @@
 #!/bin/bash
-
-# Cleanup Old containers for fresh start
-docker stop $(docker ps -q )
-localstack start -d
-
 # Stop the script if any command fails
 set -e
 
