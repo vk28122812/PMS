@@ -98,15 +98,6 @@ public class LocalStack extends Stack {
         ApplicationLoadBalancedFargateService apiGateway = createApiGateway();
         apiGateway.getNode().addDependency(elastiCacheCluster);
 
-//        FargateService prometheusService = createFargateService("prometheus-prod", "prometheus-prod",
-//                List.of(9090),
-//                null,
-//                null
-//        );
-//        prometheusService.getNode().addDependency(patientService);
-//
-//        createGrafanaService();
-
     }
 
     // VPC => Top level abstraction of an AWS Virtual Private Cloud, all infrastructure is deployed in VPC

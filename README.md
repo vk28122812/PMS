@@ -2,5 +2,20 @@
 
 # PMS 
 
-![img_1.png](img_1.png)
+## Basic Infrastructure
+![System Diagram](assets/infra.png)
 
+## Redis Caching
+![Redis](assets/redis-cache.jpg)
+
+## Rate Limiting
+![Rate Limiting](assets/rate-limiting.jpg)
+
+## Circuit Breaker and Resiliency
+![Circuit Breaker](assets/circuit-breaker.jpg)
+
+## Observability and Monitoring
+![Observability](assets/monitoring.jpg)
+
+## CQRS
+![CQRS](assets/cqrs.jpg)

@@ -323,15 +323,15 @@
             "type": "aws:cdk:warning",
             "data": "minHealthyPercent has not been configured so the default value of 50% is used. The number of running tasks will decrease below the desired count during deployments etc. See https://github.com/aws/aws-cdk/issues/31705 [ack: @aws-cdk/aws-ecs:minHealthyPercent]",
             "trace": [
-              "Annotations.addMessage (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1608)",
-              "Annotations.addWarningV2 (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/core/lib/annotations.js:1:825)",
-              "new BaseService (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/aws-ecs/lib/base/base-service.js:1:8100)",
-              "new FargateService (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/aws-ecs/lib/fargate/fargate-service.js:1:3551)",
-              "Kernel._Kernel_create (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:549:25)",
-              "Kernel.create (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:219:93)",
-              "KernelHost.processRequest (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:15482:36)",
-              "KernelHost.run (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:15442:22)",
-              "Immediate._onImmediate (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:15443:45)",
+              "Annotations.addMessage (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1608)",
+              "Annotations.addWarningV2 (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/core/lib/annotations.js:1:825)",
+              "new BaseService (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/aws-ecs/lib/base/base-service.js:1:8100)",
+              "new FargateService (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/aws-ecs/lib/fargate/fargate-service.js:1:3551)",
+              "Kernel._Kernel_create (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:549:25)",
+              "Kernel.create (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:219:93)",
+              "KernelHost.processRequest (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15482:36)",
+              "KernelHost.run (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15442:22)",
+              "Immediate._onImmediate (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15443:45)",
               "process.processImmediate (node:internal/timers:485:21)"
             ]
           }
@@ -389,15 +389,15 @@
             "type": "aws:cdk:warning",
             "data": "minHealthyPercent has not been configured so the default value of 50% is used. The number of running tasks will decrease below the desired count during deployments etc. See https://github.com/aws/aws-cdk/issues/31705 [ack: @aws-cdk/aws-ecs:minHealthyPercent]",
             "trace": [
-              "Annotations.addMessage (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1608)",
-              "Annotations.addWarningV2 (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/core/lib/annotations.js:1:825)",
-              "new BaseService (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/aws-ecs/lib/base/base-service.js:1:8100)",
-              "new FargateService (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/aws-ecs/lib/fargate/fargate-service.js:1:3551)",
-              "Kernel._Kernel_create (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:549:25)",
-              "Kernel.create (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:219:93)",
-              "KernelHost.processRequest (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:15482:36)",
-              "KernelHost.run (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:15442:22)",
-              "Immediate._onImmediate (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:15443:45)",
+              "Annotations.addMessage (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1608)",
+              "Annotations.addWarningV2 (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/core/lib/annotations.js:1:825)",
+              "new BaseService (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/aws-ecs/lib/base/base-service.js:1:8100)",
+              "new FargateService (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/aws-ecs/lib/fargate/fargate-service.js:1:3551)",
+              "Kernel._Kernel_create (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:549:25)",
+              "Kernel.create (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:219:93)",
+              "KernelHost.processRequest (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15482:36)",
+              "KernelHost.run (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15442:22)",
+              "Immediate._onImmediate (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15443:45)",
               "process.processImmediate (node:internal/timers:485:21)"
             ]
           }
@@ -455,15 +455,15 @@
             "type": "aws:cdk:warning",
             "data": "minHealthyPercent has not been configured so the default value of 50% is used. The number of running tasks will decrease below the desired count during deployments etc. See https://github.com/aws/aws-cdk/issues/31705 [ack: @aws-cdk/aws-ecs:minHealthyPercent]",
             "trace": [
-              "Annotations.addMessage (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1608)",
-              "Annotations.addWarningV2 (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/core/lib/annotations.js:1:825)",
-              "new BaseService (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/aws-ecs/lib/base/base-service.js:1:8100)",
-              "new FargateService (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/aws-ecs/lib/fargate/fargate-service.js:1:3551)",
-              "Kernel._Kernel_create (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:549:25)",
-              "Kernel.create (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:219:93)",
-              "KernelHost.processRequest (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:15482:36)",
-              "KernelHost.run (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:15442:22)",
-              "Immediate._onImmediate (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:15443:45)",
+              "Annotations.addMessage (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1608)",
+              "Annotations.addWarningV2 (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/core/lib/annotations.js:1:825)",
+              "new BaseService (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/aws-ecs/lib/base/base-service.js:1:8100)",
+              "new FargateService (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/aws-ecs/lib/fargate/fargate-service.js:1:3551)",
+              "Kernel._Kernel_create (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:549:25)",
+              "Kernel.create (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:219:93)",
+              "KernelHost.processRequest (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15482:36)",
+              "KernelHost.run (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15442:22)",
+              "Immediate._onImmediate (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15443:45)",
               "process.processImmediate (node:internal/timers:485:21)"
             ]
           }
@@ -521,15 +521,15 @@
             "type": "aws:cdk:warning",
             "data": "minHealthyPercent has not been configured so the default value of 50% is used. The number of running tasks will decrease below the desired count during deployments etc. See https://github.com/aws/aws-cdk/issues/31705 [ack: @aws-cdk/aws-ecs:minHealthyPercent]",
             "trace": [
-              "Annotations.addMessage (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1608)",
-              "Annotations.addWarningV2 (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/core/lib/annotations.js:1:825)",
-              "new BaseService (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/aws-ecs/lib/base/base-service.js:1:8100)",
-              "new FargateService (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/aws-ecs/lib/fargate/fargate-service.js:1:3551)",
-              "Kernel._Kernel_create (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:549:25)",
-              "Kernel.create (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:219:93)",
-              "KernelHost.processRequest (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:15482:36)",
-              "KernelHost.run (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:15442:22)",
-              "Immediate._onImmediate (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:15443:45)",
+              "Annotations.addMessage (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1608)",
+              "Annotations.addWarningV2 (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/core/lib/annotations.js:1:825)",
+              "new BaseService (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/aws-ecs/lib/base/base-service.js:1:8100)",
+              "new FargateService (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/aws-ecs/lib/fargate/fargate-service.js:1:3551)",
+              "Kernel._Kernel_create (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:549:25)",
+              "Kernel.create (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:219:93)",
+              "KernelHost.processRequest (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15482:36)",
+              "KernelHost.run (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15442:22)",
+              "Immediate._onImmediate (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15443:45)",
               "process.processImmediate (node:internal/timers:485:21)"
             ]
           }
@@ -587,15 +587,15 @@
             "type": "aws:cdk:warning",
             "data": "minHealthyPercent has not been configured so the default value of 50% is used. The number of running tasks will decrease below the desired count during deployments etc. See https://github.com/aws/aws-cdk/issues/31705 [ack: @aws-cdk/aws-ecs:minHealthyPercent]",
             "trace": [
-              "Annotations.addMessage (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1608)",
-              "Annotations.addWarningV2 (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/core/lib/annotations.js:1:825)",
-              "new BaseService (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/aws-ecs/lib/base/base-service.js:1:8100)",
-              "new FargateService (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/aws-ecs/lib/fargate/fargate-service.js:1:3551)",
-              "Kernel._Kernel_create (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:549:25)",
-              "Kernel.create (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:219:93)",
-              "KernelHost.processRequest (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:15482:36)",
-              "KernelHost.run (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:15442:22)",
-              "Immediate._onImmediate (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:15443:45)",
+              "Annotations.addMessage (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1608)",
+              "Annotations.addWarningV2 (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/core/lib/annotations.js:1:825)",
+              "new BaseService (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/aws-ecs/lib/base/base-service.js:1:8100)",
+              "new FargateService (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/aws-ecs/lib/fargate/fargate-service.js:1:3551)",
+              "Kernel._Kernel_create (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:549:25)",
+              "Kernel.create (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:219:93)",
+              "KernelHost.processRequest (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15482:36)",
+              "KernelHost.run (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15442:22)",
+              "Immediate._onImmediate (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15443:45)",
               "process.processImmediate (node:internal/timers:485:21)"
             ]
           }
@@ -695,16 +695,16 @@
             "type": "aws:cdk:warning",
             "data": "minHealthyPercent has not been configured so the default value of 50% is used. The number of running tasks will decrease below the desired count during deployments etc. See https://github.com/aws/aws-cdk/issues/31705 [ack: @aws-cdk/aws-ecs:minHealthyPercent]",
             "trace": [
-              "Annotations.addMessage (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1608)",
-              "Annotations.addWarningV2 (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/core/lib/annotations.js:1:825)",
-              "new BaseService (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/aws-ecs/lib/base/base-service.js:1:8100)",
-              "new FargateService (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/aws-ecs/lib/fargate/fargate-service.js:1:3551)",
-              "new ApplicationLoadBalancedFargateService (/tmp/jsii-kernel-ZN2mfZ/node_modules/aws-cdk-lib/aws-ecs-patterns/lib/fargate/application-load-balanced-fargate-service.js:1:3340)",
-              "Kernel._Kernel_create (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:549:25)",
-              "Kernel.create (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:219:93)",
-              "KernelHost.processRequest (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:15482:36)",
-              "KernelHost.run (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:15442:22)",
-              "Immediate._onImmediate (/tmp/jsii-java-runtime11822071880354958716/lib/program.js:15443:45)",
+              "Annotations.addMessage (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1608)",
+              "Annotations.addWarningV2 (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/core/lib/annotations.js:1:825)",
+              "new BaseService (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/aws-ecs/lib/base/base-service.js:1:8100)",
+              "new FargateService (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/aws-ecs/lib/fargate/fargate-service.js:1:3551)",
+              "new ApplicationLoadBalancedFargateService (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/aws-ecs-patterns/lib/fargate/application-load-balanced-fargate-service.js:1:3340)",
+              "Kernel._Kernel_create (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:549:25)",
+              "Kernel.create (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:219:93)",
+              "KernelHost.processRequest (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15482:36)",
+              "KernelHost.run (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15442:22)",
+              "Immediate._onImmediate (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15443:45)",
               "process.processImmediate (node:internal/timers:485:21)"
             ]
           }
@@ -731,6 +731,307 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "apigatewayServiceSecurityGroupfrompatientstackapigatewayLBSecurityGroupB7AE875540047D0AC131"
+          }
+        ],
+        "/patient-stack/prometheus-prodTask/TaskRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "prometheusprodTaskTaskRoleBD4ECE57"
+          }
+        ],
+        "/patient-stack/prometheus-prodTask/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "prometheusprodTask59E3CFBA"
+          }
+        ],
+        "/patient-stack/prometheus-prodTask/ExecutionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "prometheusprodTaskExecutionRole020F1700"
+          }
+        ],
+        "/patient-stack/prometheus-prodTask/ExecutionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "prometheusprodTaskExecutionRoleDefaultPolicyC42AD003"
+          }
+        ],
+        "/patient-stack/prometheus-prodLogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "prometheusprodLogGroup83C62AB2"
+          }
+        ],
+        "/patient-stack/prometheus-prod": [
+          {
+            "type": "aws:cdk:warning",
+            "data": "minHealthyPercent has not been configured so the default value of 50% is used. The number of running tasks will decrease below the desired count during deployments etc. See https://github.com/aws/aws-cdk/issues/31705 [ack: @aws-cdk/aws-ecs:minHealthyPercent]",
+            "trace": [
+              "Annotations.addMessage (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1608)",
+              "Annotations.addWarningV2 (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/core/lib/annotations.js:1:825)",
+              "new BaseService (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/aws-ecs/lib/base/base-service.js:1:8100)",
+              "new FargateService (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/aws-ecs/lib/fargate/fargate-service.js:1:3551)",
+              "Kernel._Kernel_create (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:549:25)",
+              "Kernel.create (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:219:93)",
+              "KernelHost.processRequest (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15482:36)",
+              "KernelHost.run (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15442:22)",
+              "Immediate._onImmediate (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15443:45)",
+              "process.processImmediate (node:internal/timers:485:21)"
+            ]
+          }
+        ],
+        "/patient-stack/prometheus-prod/Service": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "prometheusprodService1CBA8076"
+          }
+        ],
+        "/patient-stack/prometheus-prod/CloudmapService/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "prometheusprodCloudmapServiceCD2B18F2"
+          }
+        ],
+        "/patient-stack/prometheus-prod/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "prometheusprodSecurityGroupE0D028A0"
+          }
+        ],
+        "/patient-stack/GrafanaTaskDefinition/TaskRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GrafanaTaskDefinitionTaskRole326ACB1B"
+          }
+        ],
+        "/patient-stack/GrafanaTaskDefinition/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GrafanaTaskDefinitionFDC31B9A"
+          }
+        ],
+        "/patient-stack/GrafanaService/LB/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GrafanaServiceLB214A749C"
+          }
+        ],
+        "/patient-stack/GrafanaService/LB/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GrafanaServiceLBSecurityGroup44D0E7E2"
+          }
+        ],
+        "/patient-stack/GrafanaService/LB/SecurityGroup/to patientstackGrafanaServiceSecurityGroup18BF4590:3000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GrafanaServiceLBSecurityGrouptopatientstackGrafanaServiceSecurityGroup18BF45903000A7461329"
+          }
+        ],
+        "/patient-stack/GrafanaService/LB/PublicListener/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GrafanaServiceLBPublicListener75B73FAB"
+          }
+        ],
+        "/patient-stack/GrafanaService/LB/PublicListener/ECSGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GrafanaServiceLBPublicListenerECSGroupE5E0F4FB"
+          }
+        ],
+        "/patient-stack/GrafanaService/LoadBalancerDNS": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GrafanaServiceLoadBalancerDNSE3CF9C3B"
+          }
+        ],
+        "/patient-stack/GrafanaService/ServiceURL": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GrafanaServiceServiceURL0409780C"
+          }
+        ],
+        "/patient-stack/GrafanaService/Service": [
+          {
+            "type": "aws:cdk:warning",
+            "data": "minHealthyPercent has not been configured so the default value of 50% is used. The number of running tasks will decrease below the desired count during deployments etc. See https://github.com/aws/aws-cdk/issues/31705 [ack: @aws-cdk/aws-ecs:minHealthyPercent]",
+            "trace": [
+              "Annotations.addMessage (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1608)",
+              "Annotations.addWarningV2 (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/core/lib/annotations.js:1:825)",
+              "new BaseService (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/aws-ecs/lib/base/base-service.js:1:8100)",
+              "new FargateService (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/aws-ecs/lib/fargate/fargate-service.js:1:3551)",
+              "new ApplicationLoadBalancedFargateService (/tmp/jsii-kernel-6X8ugj/node_modules/aws-cdk-lib/aws-ecs-patterns/lib/fargate/application-load-balanced-fargate-service.js:1:3340)",
+              "Kernel._Kernel_create (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:549:25)",
+              "Kernel.create (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:219:93)",
+              "KernelHost.processRequest (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15482:36)",
+              "KernelHost.run (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15442:22)",
+              "Immediate._onImmediate (/tmp/jsii-java-runtime1903560095753713818/lib/program.js:15443:45)",
+              "process.processImmediate (node:internal/timers:485:21)"
+            ]
+          }
+        ],
+        "/patient-stack/GrafanaService/Service/Service": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GrafanaService14396AE8"
+          }
+        ],
+        "/patient-stack/GrafanaService/Service/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GrafanaServiceSecurityGroupB7292F09"
+          }
+        ],
+        "/patient-stack/GrafanaService/Service/SecurityGroup/from patientstackGrafanaServiceLBSecurityGroup90A6636D:3000": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GrafanaServiceSecurityGroupfrompatientstackGrafanaServiceLBSecurityGroup90A6636D3000F701C368"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYN926A5246"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNVpc7788A521"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1Subnet3C273B99"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1RouteTableA1FD6ACC"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1RouteTableAssociation8B583A17"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1DefaultRouteFF4E2178"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet1/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1EIP8704DB2F"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet1/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet1NATGateway5E3732C1"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2Subnet95FF715A"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2RouteTable263DEAA5"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2RouteTableAssociation43E5803C"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2DefaultRouteB1375520"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet2/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2EIPF0764873"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PublicSubnet2/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNVpcPublicSubnet2NATGateway4C855E00"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PrivateSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet1Subnet075EFF4C"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PrivateSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet1RouteTable4F1D2E36"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PrivateSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet1RouteTableAssociation34B92275"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PrivateSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet1DefaultRouteA5ADF694"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PrivateSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet2SubnetE4CEDF73"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PrivateSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet2RouteTableDCE46591"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PrivateSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet2RouteTableAssociation111C622F"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/PrivateSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNVpcPrivateSubnet2DefaultRoute20CE2D89"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/IGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNVpcIGW9C2C2B8F"
+          }
+        ],
+        "/patient-stack/EcsDefaultClusterMnL3mNNYN/Vpc/VPCGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EcsDefaultClusterMnL3mNNYNVpcVPCGW2447264E"
           }
         ]
       },
