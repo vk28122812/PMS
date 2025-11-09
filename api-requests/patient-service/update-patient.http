@@ -1,10 +1,13 @@
 
-PUT http://localhost:4000/patients/123e4567-e89b-12d3-a456-426614174000
+#PUT http://localhost:4000/patients/123e4567-e89b-12d3-a456-426614174000
+#PUT http://localhost:4004/api/patients/123e4567-e89b-12d3-a456-426614174000
+PUT lb-7f6263b5.elb.localhost.localstack.cloud:4004/api/patients/123e4567-e89b-12d3-a456-426614174000
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
   "name": "John Doe",
   "email": "john.doe@example.com",
-  "address": "123 Main St, Anytown, USA",
+  "address": "Updated 123 Main St, Anytown, USA",
   "dateOfBirth": "2000-01-01"
 }

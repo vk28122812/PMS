@@ -39,7 +39,13 @@ spring:
                 - StripPrefix=1
                 - JwtValidation # JwtValidationGatewayFilterFactory
 
-
+            - id: appointment-service-route
+              uri: http://appointment-service:4006
+              predicates:
+                - Path=/api/appointments/**
+              filters:
+                - StripPrefix=1
+                - JwtValidation
 
             ## REST CLIENT -> http://localhost:4004/api-docs/patients
             ## API GATEWAY -> http://application.yml-service:4000/v3/api-docs

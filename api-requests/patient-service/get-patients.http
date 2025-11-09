@@ -1,5 +1,5 @@
 #GET http://localhost:4000/patients
 #GET http://localhost:4004/api/patients?sort=asc&size=10&page=1
-GET lb-34c3b762.elb.localhost.localstack.cloud:4004/api/patients?sort=asc&size=10&page=1
+GET lb-7f6263b5.elb.localhost.localstack.cloud:4004/api/patients?sort=asc&size=10&page=1
 Accept: application/json
 Authorization: Bearer {{token}}

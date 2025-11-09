@@ -35,15 +35,18 @@ public class LocalStack extends Stack {
 
         DatabaseInstance patientServiceDb = createDatabase("PatientServiceDB", "patient-service-db");
 
+        DatabaseInstance appointmentServiceDb = createDatabase("AppointmentServiceDB", "appointment-service-db");
+
         CfnHealthCheck authServiceDbHealthCheck = createDbHealthCheck(authServiceDb, "AuthServiceDBHealthCheck");
 
         CfnHealthCheck patientServiceDbHealthCheck = createDbHealthCheck(patientServiceDb, "PatientServiceDBHealthCheck");
 
-        CfnCluster kafkaCluster = createMskCluster();
+        CfnHealthCheck appointmentServiceDbHealthCheck = createDbHealthCheck(appointmentServiceDb, "AppointmentServiceDBHealthCheck");
 
         this.ecsCluster = createEcsCluster();
         this.elastiCacheCluster = createRedisCluster();
 
+        CfnCluster kafkaCluster = createMskCluster();
 
         FargateService billingService = createFargateService("billing-service", "billing-service",
                 List.of(4001, 9001),
@@ -63,11 +66,19 @@ public class LocalStack extends Stack {
                 Map.of("JWT_SECRET", "bf17dfc038c823d921976218093b982b8922e802df4dd2c6260c00927c9375bb")
         );
 
+        FargateService appointmentService = createFargateService("appointment-service", "appointment-service",
+                List.of(4006),
+                appointmentServiceDb,
+                null);
+
+
         authService.getNode().addDependency(authServiceDb);
         authService.getNode().addDependency(authServiceDbHealthCheck);
 
 
         analyticsService.getNode().addDependency(kafkaCluster);
+        appointmentService.getNode().addDependency(kafkaCluster);
+        appointmentService.getNode().addDependency(appointmentServiceDbHealthCheck);
 
         FargateService patientService = createFargateService("patient-service", "patient-service",
                 List.of(4000),
@@ -87,14 +98,14 @@ public class LocalStack extends Stack {
         ApplicationLoadBalancedFargateService apiGateway = createApiGateway();
         apiGateway.getNode().addDependency(elastiCacheCluster);
 
-        FargateService prometheusService = createFargateService("prometheus-prod", "prometheus-prod",
-                List.of(9090),
-                null,
-                null
-        );
-        prometheusService.getNode().addDependency(patientService);
-
-        createGrafanaService();
+//        FargateService prometheusService = createFargateService("prometheus-prod", "prometheus-prod",
+//                List.of(9090),
+//                null,
+//                null
+//        );
+//        prometheusService.getNode().addDependency(patientService);
+//
+//        createGrafanaService();
 
     }
 
@@ -145,8 +156,8 @@ public class LocalStack extends Stack {
 
         return CfnCluster.Builder.create(this, "MskCluster")
                 .clusterName("kafka-cluster")
-                .kafkaVersion("3.6.0")
-                .numberOfBrokerNodes(2)
+                .kafkaVersion("2.5.0")
+                .numberOfBrokerNodes(3)
                 .brokerNodeGroupInfo(CfnCluster.BrokerNodeGroupInfoProperty.builder()
                         .instanceType("kafka.m5.large")
                         .clientSubnets(vpc.getPrivateSubnets().stream()
@@ -174,7 +185,7 @@ public class LocalStack extends Stack {
 
         FargateTaskDefinition taskDefinition = FargateTaskDefinition.Builder.create(this, id + "Task")
                 .cpu(256)
-                .memoryLimitMiB(512)
+                .memoryLimitMiB(256)
                 .build();
 
         ContainerDefinitionOptions.Builder containerOptionsBuilder = ContainerDefinitionOptions.builder()
@@ -242,7 +253,7 @@ public class LocalStack extends Stack {
     public ApplicationLoadBalancedFargateService createApiGateway() {
         FargateTaskDefinition taskDefinition = FargateTaskDefinition.Builder.create(this, "ApiGatewayTaskDefinition")
                 .cpu(256)
-                .memoryLimitMiB(512)
+                .memoryLimitMiB(256)
                 .build();
 
         String imageName = "api-gateway";
@@ -317,13 +328,13 @@ public class LocalStack extends Stack {
         FargateTaskDefinition taskDefinition = FargateTaskDefinition.Builder
                 .create(this, "GrafanaTaskDefinition")
                 .cpu(256)
-                .memoryLimitMiB(512)
+                .memoryLimitMiB(256)
                 .build();
 
         taskDefinition.addContainer("GrafanaContainer", ContainerDefinitionOptions.builder()
                 .image(ContainerImage.fromRegistry("grafana/grafana"))
                 .portMappings(List.of(PortMapping.builder()
-                            .containerPort(3000)
+                        .containerPort(3000)
                         .build()))
                 .build());
 

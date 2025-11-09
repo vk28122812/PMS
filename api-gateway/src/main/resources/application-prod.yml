@@ -29,6 +29,14 @@ spring:
                 - StripPrefix=1
                 - JwtValidation # JwtValidationGatewayFilterFactory
 
+            - id: appointment-service-route
+              uri: http://appointment-service.patient-management.local:4006
+              predicates:
+                - Path=/api/appointments/**
+              filters:
+                - StripPrefix=1
+                - JwtValidation
+
 
             - id: api-docs-patient-route
               uri: http://patient-service.patient-management.local:4000

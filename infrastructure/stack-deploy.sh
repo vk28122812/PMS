@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Cleanup Old containers for fresh start
+docker stop $(docker ps -q )
+localstack start -d
+
 # Stop the script if any command fails
 set -e
 
@@ -31,6 +35,15 @@ aws --endpoint-url=$LOCALSTACK_URL s3 cp "$TEMPLATE_FILE" "s3://$BUCKET_NAME/$TE
 if aws --endpoint-url=$LOCALSTACK_URL cloudformation describe-stacks --stack-name $STACK_NAME >/dev/null 2>&1; then
    echo "Deleting existing CloudFormation stack '$STACK_NAME'..."
    aws  --endpoint-url=$LOCALSTACK_URL cloudformation delete-stack --stack-name $STACK_NAME
+
+   echo "Waiting for stack deletion to complete..."
+    if ! aws --endpoint-url=$LOCALSTACK_URL cloudformation wait stack-delete-complete --stack-name $STACK_NAME; then
+      echo "aws wait failed or timed out; falling back to polling..."
+      while aws --endpoint-url=$LOCALSTACK_URL cloudformation describe-stacks --stack-name $STACK_NAME >/dev/null 2>&1; do
+        echo "Still deleting... sleeping 5s"
+        sleep 5
+      done
+    fi
 fi
 
 

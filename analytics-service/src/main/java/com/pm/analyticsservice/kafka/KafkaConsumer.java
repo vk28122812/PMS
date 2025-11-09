@@ -13,7 +13,7 @@ public class KafkaConsumer {
     private static final Logger log = LoggerFactory.getLogger(KafkaConsumer.class);
 
     // groupId tells Kafka to which consumer group this consumer belongs
-    @KafkaListener(topics = "patient", groupId = "analytics-service")
+    @KafkaListener(topics = {"patient.created", "patient.updated"}, groupId = "analytics-service")
     public void consumeEvent(byte[] event) throws InvalidProtocolBufferException {
         try {
             PatientEvent patientEvent = PatientEvent.parseFrom(event);

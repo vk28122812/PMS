@@ -174,16 +174,17 @@ services:
       - internal
 
   # only for building
-  prometheus-prod:
-    image: prometheus-prod:latest
-    container_name: prometheus-prod
-    build:
-      context: ./monitoring
-      dockerfile: Dockerfile
-    ports:
-      - 9090:9090
-    networks:
-      - internal
+
+#  prometheus-prod:
+#    image: prometheus-prod:latest
+#    container_name: prometheus-prod
+#    build:
+#      context: ./monitoring
+#      dockerfile: Dockerfile
+#    ports:
+#      - 9090:9090
+#    networks:
+#      - internal
 
   grafana:
     image: grafana/grafana:latest
@@ -192,15 +193,50 @@ services:
       - 3000:3000
     networks:
       - internal
-
-
     # email, password: admin for development
+
+
+  appointment-service:
+    image: appointment-service:latest
+    build:
+      context: ./appointment-service
+      dockerfile: Dockerfile
+    container_name: appointment-service
+    ports:
+      - 4006:4006
+    networks:
+      - internal
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_URL: jdbc:postgresql://appointment-service-db:5432/db
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_SQL_INIT_MODE: always
+    depends_on:
+      - appointment-service-db
+
+  appointment-service-db:
+    image: postgres:latest
+    container_name: appointment-service-db
+    ports:
+      - 5002:5432
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+    volumes:
+      - appointment_db_data:/var/lib/postgresql
+    networks:
+      - internal
+
 
 
 
 volumes:
   patient_db_data:
   auth_db_data:
+  appointment_db_data:
 
 networks:
   internal:

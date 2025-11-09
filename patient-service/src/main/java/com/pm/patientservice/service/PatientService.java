@@ -18,7 +18,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -82,7 +81,7 @@ public class PatientService {
 
         billingServiceGrpcClient.createBillingAccount(newPatient.getId().toString(), newPatient.getName(), newPatient.getEmail());
 
-        kafkaProducer.sendEvent(newPatient);
+        kafkaProducer.sendPatientCreatedEvent(newPatient);
 
         return PatientMapper.toDto(newPatient);
     }
@@ -101,6 +100,8 @@ public class PatientService {
         patient.setDateOfBirth(LocalDate.parse(patientDto.getDateOfBirth()));
 
         Patient updatedPatient = patientRepository.save(patient);
+        kafkaProducer.sendPatientUpdatedEvent(updatedPatient);
+
         return PatientMapper.toDto(updatedPatient);
     }
 

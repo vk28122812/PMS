@@ -1,0 +1,5 @@
+### GET request to get all appointments within a specified date range
+#GET http://localhost:4006/appointments?from=2025-10-01T00:00:00&to=2025-12-31T23:59:59
+GET http://localhost:4004/api/appointments?from=2025-10-01T00:00:00&to=2025-12-31T23:59:59
+Content-Type: application/json
+Authorization: Bearer {{token}}
