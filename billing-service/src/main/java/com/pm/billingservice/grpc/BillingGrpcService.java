@@ -3,14 +3,14 @@ package com.pm.billingservice.grpc;
 import billing.BillingResponse;
 import billing.BillingServiceGrpc;
 import io.grpc.stub.StreamObserver;
-import net.devh.boot.grpc.server.service.GrpcService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 // First create proto folder and then proto file inside it and then mvn compile
 // Then create BillingGrpcService
 
-@GrpcService
+@Service
 public class BillingGrpcService extends BillingServiceGrpc.BillingServiceImplBase {
 
     private static final Logger log = LoggerFactory.getLogger(BillingGrpcService.class);

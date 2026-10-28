@@ -5,15 +5,6 @@ x-common: &common
     driver: json-file
     options: { max-size: "5m", max-file: "2" }
 
-x-java-env: &java-env
-  JAVA_TOOL_OPTIONS: >-
-    -XX:+UseSerialGC -Xms32m -Xmx112m -Xss256k
-    -XX:MaxMetaspaceSize=128m -XX:ReservedCodeCacheSize=32m
-    -XX:TieredStopAtLevel=1 -XX:+ExitOnOutOfMemoryError
-  MALLOC_ARENA_MAX: "2"
-  SERVER_TOMCAT_THREADS_MAX: "20"
-  SERVER_TOMCAT_THREADS_MIN_SPARE: "2"
-
 # GraalVM native images: no JVM flags, heap is sized from mem_limit
 x-native-env: &native-env
   SERVER_TOMCAT_THREADS_MAX: "20"
@@ -124,11 +115,11 @@ services:
     image: vk28122812/pms:billing-service
     container_name: billing-service
     environment:
-      <<: *java-env
+      <<: *native-env
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
       kafka: { condition: service_healthy }
-    mem_limit: 280m
+    mem_limit: 160m
 
   analytics-service:
     <<: *common
@@ -146,11 +137,7 @@ services:
     image: vk28122812/pms:patient-service
     container_name: patient-service
     environment:
-      <<: [*java-env, *db-env]
-      JAVA_TOOL_OPTIONS: >-
-        -XX:+UseSerialGC -Xms48m -Xmx144m -Xss256k
-        -XX:MaxMetaspaceSize=150m -XX:ReservedCodeCacheSize=32m
-        -XX:TieredStopAtLevel=1 -XX:+ExitOnOutOfMemoryError
+      <<: [*native-env, *db-env]
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/patient_db
       BILLING_SERVICE_ADDRESS: billing-service
       BILLING_SERVICE_GRPC_PORT: 9001
@@ -163,7 +150,7 @@ services:
       postgres: { condition: service_healthy }
       kafka: { condition: service_healthy }
       billing-service: { condition: service_started }
-    mem_limit: 320m
+    mem_limit: 192m
 
   appointment-service:
     <<: *common

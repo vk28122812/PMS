@@ -9,10 +9,8 @@ on:
   push:
     branches: [main, docker-optimised]
     paths:
+      - "*-service/**"
       - "api-gateway/**"
-      - "auth-service/**"
-      - "analytics-service/**"
-      - "appointment-service/**"
 
 jobs:
   build:
@@ -20,12 +18,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # billing-service and patient-service stay on the JVM image (Dockerfile):
-        # net.devh grpc-spring-boot-starter doesn't support GraalVM native images
         service:
           - api-gateway
           - auth-service
+          - billing-service
           - analytics-service
+          - patient-service
           - appointment-service
     steps:
       - name: Skip if not selected
