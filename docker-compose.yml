@@ -1,18 +1,41 @@
+x-common: &common
+  restart: unless-stopped
+  networks: [internal]
+  logging:
+    driver: json-file
+    options: { max-size: "5m", max-file: "2" }
+
+x-java-env: &java-env
+  JAVA_TOOL_OPTIONS: >-
+    -XX:+UseSerialGC -Xms32m -Xmx112m -Xss256k
+    -XX:MaxMetaspaceSize=128m -XX:ReservedCodeCacheSize=32m
+    -XX:TieredStopAtLevel=1 -XX:+ExitOnOutOfMemoryError
+  MALLOC_ARENA_MAX: "2"
+  SERVER_TOMCAT_THREADS_MAX: "20"
+  SERVER_TOMCAT_THREADS_MIN_SPARE: "2"
+
+x-db-env: &db-env
+  SPRING_DATASOURCE_USERNAME: admin
+  SPRING_DATASOURCE_PASSWORD: password
+  SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: "3"
+  SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE: "1"
+  SPRING_JPA_HIBERNATE_DDL_AUTO: update
+  SPRING_JPA_OPEN_IN_VIEW: "false"
+  SPRING_SQL_INIT_MODE: always
+
 services:
   nginx:
+    <<: *common
     image: nginx:alpine
     container_name: nginx
-    ports:
-      - 80:80
+    ports: ["80:80"]
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-    networks:
-      - internal
-    depends_on:
-      - api-gateway
-      - grafana
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on: [api-gateway]
+    mem_limit: 32m
 
   kafka:
+    <<: *common
     image: apache/kafka-native:latest
     container_name: kafka
     environment:
@@ -24,84 +47,106 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
       KAFKA_CONTROLLER_QUORUM_VOTERS: 0@kafka:9093
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_OFFSETS_TOPIC_NUM_PARTITIONS: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_NUM_PARTITIONS: 1
-      KAFKA_HEAP_OPTS: "-Xms128m -Xmx256m"
-    networks:
-      - internal
+      KAFKA_NUM_NETWORK_THREADS: 1
+      KAFKA_NUM_IO_THREADS: 2
+      KAFKA_BACKGROUND_THREADS: 2
+      KAFKA_LOG_RETENTION_HOURS: 24
+      KAFKA_LOG_SEGMENT_BYTES: 16777216
+      KAFKA_HEAP_OPTS: "-Xms64m -Xmx160m"
     healthcheck:
       test: ["CMD", "bash", "-c", "echo > /dev/tcp/localhost/9092"]
-      interval: 3s
+      interval: 5s
       timeout: 5s
-      retries: 5
-      start_period: 10s
-    restart: unless-stopped
+      retries: 10
+      start_period: 15s
+    mem_limit: 256m
 
   redis:
+    <<: *common
     image: redis:7-alpine
     container_name: redis
-    command: redis-server --requirepass "StrongPassword123!" --maxmemory 48mb --maxmemory-policy allkeys-lru
-    networks:
-      - internal
+    command: >
+      redis-server --requirepass "StrongPassword123!"
+      --maxmemory 32mb --maxmemory-policy allkeys-lru
+      --save "" --appendonly no
+    mem_limit: 48m
 
-  api-gateway:
-    image: vk28122812/pms:api-gateway
-    container_name: api-gateway
-    networks:
-      - internal
+  postgres:
+    <<: *common
+    image: postgres:17-alpine
+    container_name: postgres
     environment:
-      AUTH_SERVICE_URL: http://auth-service:4005
-      SPRING_DATA_REDIS_HOST: redis
-      SPRING_DATA_REDIS_PORT: 6379
-      SPRING_DATA_REDIS_PASSWORD: StrongPassword123!
-      JAVA_TOOL_OPTIONS: "-Xms48m -Xmx160m -XX:+UseSerialGC"
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: auth_db
+    command: >
+      postgres
+      -c shared_buffers=32MB -c max_connections=30
+      -c work_mem=2MB -c maintenance_work_mem=16MB
+      -c effective_cache_size=128MB -c wal_buffers=1MB
+      -c max_worker_processes=2 -c max_parallel_workers=0
+      -c max_parallel_workers_per_gather=0 -c autovacuum_max_workers=1
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d auth_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+    mem_limit: 160m
+
+  auth-service:
+    <<: *common
+    image: vk28122812/pms:auth-service
+    container_name: auth-service
+    environment:
+      <<: [*java-env, *db-env]
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/auth_db
+      JWT_SECRET: bf17dfc038c823d921976218093b982b8922e802df4dd2c6260c00927c9375bb
     depends_on:
-      auth-service:
-        condition: service_started
-      patient-service:
-        condition: service_started
-      billing-service:
-        condition: service_started
-      analytics-service:
-        condition: service_started
+      postgres: { condition: service_healthy }
+    mem_limit: 280m
 
   billing-service:
+    <<: *common
     image: vk28122812/pms:billing-service
     container_name: billing-service
-    networks:
-      - internal
     environment:
+      <<: *java-env
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      JAVA_TOOL_OPTIONS: "-Xms48m -Xmx160m -XX:+UseSerialGC"
     depends_on:
-      kafka:
-        condition: service_healthy
+      kafka: { condition: service_healthy }
+    mem_limit: 280m
 
   analytics-service:
+    <<: *common
     image: vk28122812/pms:analytics-service
     container_name: analytics-service
-    networks:
-      - internal
     environment:
+      <<: *java-env
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      JAVA_TOOL_OPTIONS: "-Xms48m -Xmx160m -XX:+UseSerialGC"
     depends_on:
-      kafka:
-        condition: service_healthy
+      kafka: { condition: service_healthy }
+    mem_limit: 280m
 
   patient-service:
+    <<: *common
     image: vk28122812/pms:patient-service
     container_name: patient-service
-    networks:
-      - internal
     environment:
-      SPRING_DATASOURCE_PASSWORD: password
-      SPRING_DATASOURCE_URL: jdbc:postgresql://patient-service-db:5432/db
-      SPRING_DATASOURCE_USERNAME: admin
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      SPRING_SQL_INIT_MODE: always
+      <<: [*java-env, *db-env]
+      JAVA_TOOL_OPTIONS: >-
+        -XX:+UseSerialGC -Xms48m -Xmx144m -Xss256k
+        -XX:MaxMetaspaceSize=150m -XX:ReservedCodeCacheSize=32m
+        -XX:TieredStopAtLevel=1 -XX:+ExitOnOutOfMemoryError
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/patient_db
       BILLING_SERVICE_ADDRESS: billing-service
       BILLING_SERVICE_GRPC_PORT: 9001
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
@@ -109,130 +154,67 @@ services:
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
       SPRING_DATA_REDIS_PASSWORD: StrongPassword123!
-      JAVA_TOOL_OPTIONS: "-Xms64m -Xmx200m -XX:+UseSerialGC"
     depends_on:
-      patient-service-db:
-        condition: service_healthy
-      kafka:
-        condition: service_healthy
-      billing-service:
-        condition: service_started
-
-  patient-service-db:
-    image: postgres:17-alpine
-    container_name: patient-service-db
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: db
-    volumes:
-      - patient_db_data:/var/lib/postgresql/data
-    networks:
-      - internal
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d db"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-      start_period: 15s
-
-  auth-service:
-    image: vk28122812/pms:auth-service
-    container_name: auth-service
-    networks:
-      - internal
-    environment:
-      SPRING_DATASOURCE_PASSWORD: password
-      SPRING_DATASOURCE_URL: jdbc:postgresql://auth-service-db:5432/db
-      SPRING_DATASOURCE_USERNAME: admin
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      SPRING_SQL_INIT_MODE: always
-      JWT_SECRET: bf17dfc038c823d921976218093b982b8922e802df4dd2c6260c00927c9375bb
-      JAVA_TOOL_OPTIONS: "-Xms48m -Xmx160m -XX:+UseSerialGC"
-    depends_on:
-      auth-service-db:
-        condition: service_healthy
-
-  auth-service-db:
-    image: postgres:17-alpine
-    container_name: auth-service-db
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: db
-    volumes:
-      - auth_db_data:/var/lib/postgresql/data
-    networks:
-      - internal
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d db"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-      start_period: 15s
+      postgres: { condition: service_healthy }
+      kafka: { condition: service_healthy }
+      billing-service: { condition: service_started }
+    mem_limit: 320m
 
   appointment-service:
+    <<: *common
     image: vk28122812/pms:appointment-service
     container_name: appointment-service
-    networks:
-      - internal
     environment:
+      <<: [*java-env, *db-env]
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/appointment_db
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      SPRING_DATASOURCE_PASSWORD: password
-      SPRING_DATASOURCE_URL: jdbc:postgresql://appointment-service-db:5432/db
-      SPRING_DATASOURCE_USERNAME: admin
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      SPRING_SQL_INIT_MODE: always
-      JAVA_TOOL_OPTIONS: "-Xms48m -Xmx160m -XX:+UseSerialGC"
     depends_on:
-      appointment-service-db:
-        condition: service_healthy
-      kafka:
-        condition: service_healthy
+      postgres: { condition: service_healthy }
+      kafka: { condition: service_healthy }
+    mem_limit: 280m
 
-  appointment-service-db:
-    image: postgres:17-alpine
-    container_name: appointment-service-db
+  api-gateway:
+    <<: *common
+    image: vk28122812/pms:api-gateway
+    container_name: api-gateway
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: db
-    volumes:
-      - appointment_db_data:/var/lib/postgresql/data
-    networks:
-      - internal
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d db"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-      start_period: 15s
+      <<: *java-env
+      AUTH_SERVICE_URL: http://auth-service:4005
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      SPRING_DATA_REDIS_PASSWORD: StrongPassword123!
+    depends_on: [auth-service, patient-service, billing-service, analytics-service]
+    mem_limit: 280m
 
+  # Only started with: docker compose --profile monitoring up -d
   prometheus:
+    <<: *common
     image: prom/prometheus:latest
     container_name: prometheus
+    profiles: [monitoring]
     volumes:
-      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.retention.time=3d'
-      - '--storage.tsdb.retention.size=256MB'
-    networks:
-      - internal
+      - '--storage.tsdb.retention.time=1d'
+      - '--storage.tsdb.retention.size=128MB'
+    mem_limit: 128m
 
   grafana:
+    <<: *common
     image: grafana/grafana:latest
     container_name: grafana
+    profiles: [monitoring]
     environment:
-      - GF_SERVER_ROOT_URL=http://64.227.189.209/grafana/
-      - GF_SERVER_SERVE_FROM_SUB_PATH=true
-    networks:
-      - internal
+      GF_SERVER_ROOT_URL: http://34.16.54.224/grafana/
+      GF_SERVER_SERVE_FROM_SUB_PATH: "true"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+      GF_PLUGINS_PREINSTALL_DISABLED: "true"
+    mem_limit: 128m
 
 volumes:
-  patient_db_data:
-  auth_db_data:
-  appointment_db_data:
+  pg_data:
 
 networks:
   internal:
