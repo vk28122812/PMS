@@ -14,6 +14,11 @@ x-java-env: &java-env
   SERVER_TOMCAT_THREADS_MAX: "20"
   SERVER_TOMCAT_THREADS_MIN_SPARE: "2"
 
+# GraalVM native images: no JVM flags, heap is sized from mem_limit
+x-native-env: &native-env
+  SERVER_TOMCAT_THREADS_MAX: "20"
+  SERVER_TOMCAT_THREADS_MIN_SPARE: "2"
+
 x-db-env: &db-env
   SPRING_DATASOURCE_USERNAME: admin
   SPRING_DATASOURCE_PASSWORD: password
@@ -107,12 +112,12 @@ services:
     image: vk28122812/pms:auth-service
     container_name: auth-service
     environment:
-      <<: [*java-env, *db-env]
+      <<: [*native-env, *db-env]
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/auth_db
       JWT_SECRET: bf17dfc038c823d921976218093b982b8922e802df4dd2c6260c00927c9375bb
     depends_on:
       postgres: { condition: service_healthy }
-    mem_limit: 280m
+    mem_limit: 160m
 
   billing-service:
     <<: *common
@@ -130,11 +135,11 @@ services:
     image: vk28122812/pms:analytics-service
     container_name: analytics-service
     environment:
-      <<: *java-env
+      <<: *native-env
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
       kafka: { condition: service_healthy }
-    mem_limit: 280m
+    mem_limit: 160m
 
   patient-service:
     <<: *common
@@ -165,26 +170,26 @@ services:
     image: vk28122812/pms:appointment-service
     container_name: appointment-service
     environment:
-      <<: [*java-env, *db-env]
+      <<: [*native-env, *db-env]
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/appointment_db
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
       postgres: { condition: service_healthy }
       kafka: { condition: service_healthy }
-    mem_limit: 280m
+    mem_limit: 160m
 
   api-gateway:
     <<: *common
     image: vk28122812/pms:api-gateway
     container_name: api-gateway
     environment:
-      <<: *java-env
+      <<: *native-env
       AUTH_SERVICE_URL: http://auth-service:4005
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
       SPRING_DATA_REDIS_PASSWORD: StrongPassword123!
     depends_on: [auth-service, patient-service, billing-service, analytics-service]
-    mem_limit: 280m
+    mem_limit: 160m
 
   # Only started with: docker compose --profile monitoring up -d
   prometheus:
