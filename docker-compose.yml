@@ -198,7 +198,7 @@ services:
     container_name: grafana
     profiles: [monitoring]
     environment:
-      GF_SERVER_ROOT_URL: http://34.16.54.224/grafana/
+      GF_SERVER_ROOT_URL: http://34.68.175.217/grafana/
       GF_SERVER_SERVE_FROM_SUB_PATH: "true"
       GF_ANALYTICS_REPORTING_ENABLED: "false"
       GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
